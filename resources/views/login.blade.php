@@ -3,174 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-
-    <!-- CSS -->
+    <title>Login | Loan Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
         body {
-            background-color: #FDFDFC;
-            color: #1b1b18;
-            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
+            padding: 16px;
         }
 
         .login-card {
-            background-color: #ffffff;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .login-card h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .login-card p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
-        .login-card label {
-            display: block;
-            text-align: left;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .login-card input[type="email"],
-        .login-card input[type="password"] {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
             width: 100%;
-            padding: 12px 15px;
+            max-width: 420px;
+            padding: 40px 36px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            position: relative;
             margin-bottom: 20px;
-            border: 1px solid #9e1414;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border: 2px solid #e5e7eb;
             border-radius: 12px;
+            font-size: 0.95rem;
             outline: none;
             transition: all 0.3s ease;
+            background: #f9fafb;
+            color: #111827;
         }
 
-        .login-card input:focus {
-            border-color: #FBBF24;
-            box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+        .input-group input:focus {
+            border-color: #059669;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
         }
 
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            margin-bottom: 25px;
+        .input-group .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 0.9rem;
+            transition: color 0.3s;
         }
 
-        .remember-forgot input[type="checkbox"] {
-            margin-right: 5px;
+        .input-group input:focus ~ .icon,
+        .input-group:focus-within .icon {
+            color: #059669;
         }
 
-        .login-card button {
+        .btn-login {
             width: 100%;
-            padding: 12px;
-            background-color: #FBBF24;
-            color: #1b1b18;
+            padding: 14px;
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
             font-weight: 600;
+            font-size: 1rem;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+            letter-spacing: 0.3px;
         }
 
-        .login-card button:hover {
-            background-color: #e5ac1c;
+        .btn-login:hover {
+            background: linear-gradient(135deg, #047857, #065f46);
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.5);
         }
 
-        .register-link {
-            margin-top: 20px;
-            font-size: 0.9rem;
+        .btn-login:active {
+            transform: translateY(0);
         }
 
-        .register-link a {
-            color: #FBBF24;
-            text-decoration: none;
-            font-weight: 500;
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: #9ca3af;
+            font-size: 0.8rem;
         }
 
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Dark mode */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #0a0a0a;
-                color: #EDEDEC;
-            }
-            .login-card {
-                background-color: #1b1b18;
-                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.05);
-            }
-            .login-card p,
-            .remember-forgot {
-                color: #ccc;
-            }
-            .login-card input[type="email"],
-            .login-card input[type="password"] {
-                background-color: #0a0a0a;
-                border: 1px solid #555;
-                color: #EDEDEC;
-            }
-            .login-card input:focus {
-                box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
-            }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <h2>Welcome Back</h2>
-            <p>Please login to your account</p>
+    <div class="login-card">
 
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-
-                <!-- Email -->
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus>
-
-                <!-- Password -->
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
-
-                <!-- Remember Me -->
-                <div class="remember-forgot">
-                    <label><input type="checkbox" name="remember"> Remember me</label>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}">Forgot password?</a>
-                    @endif
-                </div>
-
-                <!-- Login Button -->
-                <button type="submit">Log In</button>
-            </form>
-
-            <!-- Register Link -->
-            <p class="register-link">
-                Don't have an account? <a href="{{ route('register') }}">Register</a>
-            </p>
+        <!-- Logo / Brand -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-2xl mb-4">
+                <i class="fas fa-coins text-3xl text-green-600"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">Loan Management</h1>
+            <p class="text-gray-500 text-sm mt-1">Sign in to your account</p>
         </div>
+
+        @if ($errors->any())
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 text-sm flex items-start gap-2">
+                <i class="fas fa-exclamation-circle mt-0.5 flex-shrink-0"></i>
+                <div>
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Email -->
+            <div class="mb-1">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                <div class="input-group">
+                    <input type="email" name="email" id="email"
+                        value="{{ old('email') }}"
+                        placeholder="you@example.com"
+                        required autofocus autocomplete="email">
+                    <i class="fas fa-envelope icon"></i>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-1">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <div class="input-group">
+                    <input type="password" name="password" id="password"
+                        placeholder="••••••••"
+                        required autocomplete="current-password">
+                    <i class="fas fa-lock icon"></i>
+                </div>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex justify-between items-center mb-6 text-sm">
+                <label class="flex items-center gap-2 cursor-pointer text-gray-600">
+                    <input type="checkbox" name="remember"
+                        class="w-4 h-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                    Remember me
+                </label>
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}"
+                       class="text-green-600 hover:text-green-700 font-medium hover:underline">
+                        Forgot password?
+                    </a>
+                @endif
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt mr-2"></i> Sign In
+            </button>
+        </form>
+
+        <!-- Register Link -->
+        <p class="text-center text-sm text-gray-500 mt-6">
+            Don't have an account?
+            <a href="{{ route('register') }}" class="text-green-600 font-semibold hover:underline">
+                Create one
+            </a>
+        </p>
+
     </div>
 </body>
 </html>

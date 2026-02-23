@@ -1,75 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Loan Management System</title>
+@extends('layouts.app')
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+@section('title', 'Dashboard')
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body class="bg-gray-100">
+@section('content')
 
-    {{-- HEADER --}}
-    @include('layouts.header')
+<!-- Page Header -->
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+    <p class="text-gray-500 text-sm mt-1">Welcome back, <span class="font-semibold text-green-600">{{ Auth::user()->name ?? 'Admin' }}</span> 👋</p>
+</div>
 
-    {{-- MAIN CONTENT --}}
-    <main class="p-6">
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 mb-8">
 
-        <h1 class="text-2xl font-semibold mb-6">
-            Welcome, {{ Auth::user()->name }} 👋
-        </h1>
-
-        {{-- STATS --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-
-            <div class="bg-white rounded shadow p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-gray-500">Total Clients</p>
-                    <h2 class="text-2xl font-bold">150</h2>
-                </div>
-                <i class="fas fa-users text-3xl text-green-600"></i>
+    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
+                <i class="fas fa-users text-green-600 text-lg"></i>
             </div>
-
-            <div class="bg-white rounded shadow p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-gray-500">Active Loans</p>
-                    <h2 class="text-2xl font-bold">75</h2>
-                </div>
-                <i class="fas fa-hand-holding-usd text-3xl text-green-600"></i>
-            </div>
-
-            <div class="bg-white rounded shadow p-5 flex justify-between items-center">
-                <div>
-                    <p class="text-gray-500">Overdue</p>
-                    <h2 class="text-2xl font-bold text-red-600">12</h2>
-                </div>
-                <i class="fas fa-exclamation-triangle text-3xl text-red-500"></i>
-            </div>
-
+            <span class="text-xs font-medium text-green-600 bg-green-50 px-2.5 py-1 rounded-full">+12%</span>
         </div>
+        <p class="text-3xl font-bold text-gray-900">150</p>
+        <p class="text-sm text-gray-500 mt-1">Total Clients</p>
+    </div>
 
-        {{-- QUICK ACTIONS --}}
-        <div class="bg-white rounded shadow p-6">
-            <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
-
-            <div class="flex flex-wrap gap-4">
-                <a href="{{ route('loan.create') }}"
-                   class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition">
-                    + Add Client
-                </a>
-
-                <a href="{{ route('loan.index') }}"
-                   class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
-                    View Clients
-                </a>
+    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+                <i class="fas fa-hand-holding-usd text-blue-600 text-lg"></i>
             </div>
+            <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">Active</span>
         </div>
+        <p class="text-3xl font-bold text-gray-900">75</p>
+        <p class="text-sm text-gray-500 mt-1">Active Loans</p>
+    </div>
 
-    </main>
+    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow sm:col-span-2 xl:col-span-1">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #fee2e2, #fecaca);">
+                <i class="fas fa-exclamation-triangle text-red-500 text-lg"></i>
+            </div>
+            <span class="text-xs font-medium text-red-600 bg-red-50 px-2.5 py-1 rounded-full">Urgent</span>
+        </div>
+        <p class="text-3xl font-bold text-red-600">12</p>
+        <p class="text-sm text-gray-500 mt-1">Overdue Loans</p>
+    </div>
 
-</body>
-</html>
+</div>
+
+<!-- Quick Actions -->
+<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+    <h2 class="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
+        <i class="fas fa-bolt text-yellow-500"></i> Quick Actions
+    </h2>
+    <div class="flex flex-wrap gap-3">
+        <a href="{{ route('loan.create') }}"
+           class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
+            <i class="fas fa-user-plus"></i> Add Client
+        </a>
+        <a href="{{ route('loan.index') }}"
+           class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
+            <i class="fas fa-list"></i> View Clients
+        </a>
+    </div>
+</div>
+
+@endsection
