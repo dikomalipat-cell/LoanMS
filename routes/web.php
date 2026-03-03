@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');
@@ -14,6 +13,10 @@ Route::get('/dashboard', function () {
 
 // Client CRUD routes
 Route::middleware('auth')->group(function () {
+    Route::get('/banks', function () {
+        return view('banks.index');
+    })->name('banks.index');
+
     Route::post('/Client', [ClientController::class, 'store'])->name('loan.store');
     Route::get('/Client', [ClientController::class, 'index'])->name('loan.index');
     Route::get('/Client/create', [ClientController::class, 'create'])->name('loan.create');
@@ -22,11 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/Client/{client}', [ClientController::class, 'update'])->name('loan.update');
     Route::delete('/Client/{client}', [ClientController::class, 'destroy'])->name('loan.destroy');
 });
-    // Logout route
-    Route::post('/logout', function () {
-        Auth::logout();
-        return redirect('/'); 
-    })->name('logout');
-;
+// Logout route
+Route::post('/logout', function () {
+    Auth::logout();
+
+    return redirect('/');
+})->name('logout');
 
 require __DIR__.'/auth.php';

@@ -14,6 +14,8 @@
             <i class="fas fa-home text-gray-400"></i>
             <span class="text-gray-300">/</span>
             <span class="text-gray-700 font-medium">Dashboard</span>
+            <span class="text-gray-300">·</span>
+            <span class="text-xs font-semibold text-gray-500">{{ (bool) (Auth::user()?->is_admin ?? false) ? 'Admin' : 'User' }}</span>
         </div>
     </div>
 
@@ -46,8 +48,8 @@
                     </span>
                 </div>
                 <div class="hidden sm:block text-left">
-                    <p class="text-sm font-semibold text-gray-800 leading-tight">{{ Auth::user()->name ?? 'Admin' }}</p>
-                    <p class="text-xs text-gray-500 leading-tight">Administrator</p>
+                    <p class="text-sm font-semibold text-gray-800 leading-tight">{{ Auth::user()->name ?? 'User' }}</p>
+                    <p class="text-xs text-gray-500 leading-tight">{{ (bool) (Auth::user()?->is_admin ?? false) ? 'Administrator' : 'Staff User' }}</p>
                 </div>
                 <i class="fas fa-chevron-down text-xs text-gray-400 hidden sm:block ml-1"></i>
             </button>

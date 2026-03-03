@@ -1,9 +1,13 @@
 <aside id="sidebar" class="fixed top-0 left-0 w-64 h-full z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col"
     style="background: linear-gradient(180deg, #064e3b 0%, #065f46 60%, #047857 100%);">
 
+    @php
+        $isAdmin = (bool) (Auth::user()?->is_admin ?? false);
+    @endphp
+
     <!-- Brand -->
     <div class="flex items-center justify-between px-5 py-5 border-b border-green-700">
-        <a href="{{ route('loan.index') }}" class="flex items-center gap-3">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
             <div class="w-9 h-9 bg-green-400 bg-opacity-20 rounded-xl flex items-center justify-center">
                 <i class="fas fa-coins text-green-300 text-lg"></i>
             </div>
@@ -17,7 +21,25 @@
     <!-- Navigation -->
     <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
 
-        <p class="text-green-400 text-xs font-semibold uppercase tracking-widest px-3 mb-2">Main Menu</p>
+        <div class="flex items-center justify-between px-3 mb-2">
+            <p class="text-green-300 text-xs font-semibold uppercase tracking-widest">Main Menu</p>
+            <span class="text-[10px] font-bold text-green-200/90 bg-white/10 px-2 py-1 rounded-full">
+                {{ $isAdmin ? 'ADMIN' : 'USER' }}
+            </span>
+        </div>
+
+        <a href="{{ route('dashboard') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+                  @if(request()->routeIs('dashboard')) bg-white bg-opacity-15 text-white @else text-green-200 hover:bg-white hover:bg-opacity-10 hover:text-white @endif">
+            <span class="w-8 h-8 flex items-center justify-center rounded-lg
+                         @if(request()->routeIs('dashboard')) bg-green-400 bg-opacity-30 @else bg-transparent group-hover:bg-green-400 group-hover:bg-opacity-20 @endif transition">
+                <i class="fas fa-home text-sm"></i>
+            </span>
+            <span class="text-sm font-medium">Dashboard</span>
+            @if(request()->routeIs('dashboard'))
+                <span class="ml-auto w-1.5 h-1.5 bg-green-300 rounded-full"></span>
+            @endif
+        </a>
 
         <a href="{{ route('loan.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
@@ -75,7 +97,7 @@
                 <i class="fas fa-user text-green-200 text-sm"></i>
             </div>
             <div class="min-w-0">
-                <p class="text-white text-sm font-medium truncate">{{ Auth::user()->name ?? 'Admin' }}</p>
+                <p class="text-white text-sm font-medium truncate">{{ Auth::user()->name ?? 'User' }}</p>
                 <p class="text-green-400 text-xs truncate">{{ Auth::user()->email ?? '' }}</p>
             </div>
         </div>
