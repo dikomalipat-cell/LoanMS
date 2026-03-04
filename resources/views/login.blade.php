@@ -98,20 +98,44 @@
             transform: translateY(0);
         }
 
-        .divider {
+        /* Login Type Toggle */
+        .login-toggle {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-            color: #9ca3af;
-            font-size: 0.8rem;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
         }
 
-        .divider::before, .divider::after {
-            content: '';
+        .login-toggle button {
             flex: 1;
-            height: 1px;
-            background: #e5e7eb;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #6b7280;
+        }
+
+        .login-toggle button.active {
+            background: white;
+            color: #059669;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .login-toggle button.active.admin {
+            color: #7c3aed;
+        }
+
+        .login-toggle button:hover:not(.active) {
+            color: #374151;
+        }
+
+        .mode-icon {
+            margin-right: 6px;
         }
     </style>
 </head>
@@ -120,12 +144,22 @@
     <div class="login-card">
 
         <!-- Logo / Brand -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-6">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-2xl mb-4">
                 <i class="fas fa-coins text-3xl text-green-600"></i>
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Loan Management</h1>
-            <p class="text-gray-500 text-sm mt-1">Sign in to your account</p>
+            <p class="text-gray-500 text-sm mt-1" id="login-subtitle">Sign in to your account</p>
+        </div>
+
+        <!-- Login Type Toggle -->
+        <div class="login-toggle">
+            <button type="button" id="btn-user" class="active" onclick="setLoginType('user')">
+                <i class="fas fa-user mode-icon"></i>User
+            </button>
+            <button type="button" id="btn-admin" onclick="setLoginType('admin')">
+                <i class="fas fa-user-shield mode-icon"></i>Admin
+            </button>
         </div>
 
         @if ($errors->any())
@@ -141,6 +175,9 @@
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
+
+            <!-- Hidden field for login type -->
+            <input type="hidden" name="login_type" id="login_type" value="user">
 
             <!-- Email -->
             <div class="mb-1">
@@ -181,8 +218,8 @@
             </div>
 
             <!-- Login Button -->
-            <button type="submit" class="btn-login">
-                <i class="fas fa-sign-in-alt mr-2"></i> Sign In
+            <button type="submit" class="btn-login" id="login-btn">
+                <i class="fas fa-sign-in-alt mr-2"></i> <span id="login-btn-text">Sign In</span>
             </button>
         </form>
 
@@ -195,5 +232,32 @@
         </p>
 
     </div>
+
+    <script>
+        function setLoginType(type) {
+            // Update hidden field
+            document.getElementById('login_type').value = type;
+
+            // Update button states
+            document.getElementById('btn-user').classList.remove('active');
+            document.getElementById('btn-admin').classList.remove('active');
+            document.getElementById('btn-' + type).classList.add('active');
+
+            // Add admin class for purple styling
+            if (type === 'admin') {
+                document.getElementById('btn-admin').classList.add('admin');
+            } else {
+                document.getElementById('btn-admin').classList.remove('admin');
+            }
+
+            // Update subtitle
+            const subtitle = document.getElementById('login-subtitle');
+            if (type === 'admin') {
+                subtitle.textContent = 'Admin access only';
+            } else {
+                subtitle.textContent = 'Sign in to your account';
+            }
+        }
+    </script>
 </body>
 </html>

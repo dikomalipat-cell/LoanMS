@@ -10,8 +10,9 @@ class Client extends Model
 
     protected $fillable = [
         'name',
-        'address',
+        'email',
         'phone',
+        'address',
         'gender',
         'birthdate',
         'age',
@@ -19,7 +20,7 @@ class Client extends Model
         'current_job',
         'payroll',
         'payroll_picture',
-        'admin_id'
+        'admin_id',
     ];
 
     public function admin()

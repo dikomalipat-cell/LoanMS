@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -11,6 +11,7 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::all();
+
         return view('loan.index', compact('clients'));
     }
 
@@ -21,36 +22,42 @@ class ClientController extends Controller
     }
 
     // Store new client in database
-   public function store(Request $request)
-{
-    // Validate the input
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'nullable|email|unique:clients,email',
-        'phone' => 'nullable|string|max:50',
-        'address' => 'nullable|string|max:500',
-        'loan_amount' => 'nullable|numeric',
-        'loan_date' => 'nullable|date',
-        'due_date' => 'nullable|date',
-        'status' => 'required|in:pending,approved,paid,defaulted',
-    ]);
+    public function store(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:clients,email',
+            'phone' => 'nullable|string|max:50',
+            'address' => 'nullable|string|max:500',
+            'gender' => 'nullable|in:male,female,other',
+            'age' => 'nullable|integer|min:18|max:100',
+            'current_job' => 'nullable|string|max:255',
+            'loan_amount' => 'nullable|numeric',
+            'loan_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
+            'status' => 'required|in:pending,approved,paid,defaulted',
+        ]);
 
-    // Create new client
-    Client::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'address' => $request->address,
-        'loan_amount' => $request->loan_amount ?? 0,
-        'balance' => $request->loan_amount ?? 0,
-        'loan_date' => $request->loan_date,
-        'due_date' => $request->due_date,
-        'status' => $request->status,
-    ]);
+        // Create new client
+        Client::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'gender' => $request->gender,
+            'age' => $request->age,
+            'current_job' => $request->current_job,
+            'loan_amount' => $request->loan_amount ?? 0,
+            'balance' => $request->loan_amount ?? 0,
+            'loan_date' => $request->loan_date,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+        ]);
 
-    // Redirect back to clients list with a success message
-    return redirect()->route('loan.index')->with('msg', 'Client added successfully!');
-}
+        // Redirect back to clients list with a success message
+        return redirect()->route('loan.index')->with('msg', 'Client added successfully!');
+    }
 
     // Show form to edit an existing client
     public function edit(Client $client)
@@ -62,14 +69,17 @@ class ClientController extends Controller
     public function update(Request $request, Client $client)
     {
         $data = $request->validate([
-            'full_name'   => 'required|string|max:255',
-            'address'     => 'required|string|max:255',
-            'phone'       => 'nullable|string|max:20',
-            'gender'      => 'required|in:male,female,other',
-            'birthdate'   => 'nullable|date',
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:clients,email,'.$client->id,
+            'phone' => 'nullable|string|max:50',
+            'address' => 'nullable|string|max:500',
+            'gender' => 'nullable|in:male,female,other',
+            'age' => 'nullable|integer|min:18|max:100',
             'current_job' => 'nullable|string|max:255',
-            'payroll'     => 'nullable|numeric',
-            'payroll_picture' => 'nullable|string',
+            'loan_amount' => 'nullable|numeric',
+            'loan_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
+            'status' => 'required|in:pending,approved,paid,defaulted',
         ]);
 
         $client->update($data);
@@ -81,6 +91,7 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
+
         return redirect()->route('loan.index')->with('msg', 'Client deleted successfully!');
     }
 }

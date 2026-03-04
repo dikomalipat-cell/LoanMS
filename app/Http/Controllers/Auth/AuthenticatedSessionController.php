@@ -28,6 +28,30 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Check login type and user role
+        $loginType = $request->input('login_type', 'user');
+        $user = Auth::user();
+
+        // If admin login is requested, verify user is actually admin
+        if ($loginType === 'admin' && ! $user->is_admin) {
+            // Not an admin, logout and show error
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'You do not have admin access.',
+            ])->onlyInput('email');
+        }
+
+        // If user login but user is actually admin, redirect to admin dashboard
+        if ($loginType === 'user' && $user->is_admin) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
+
+        // Redirect based on role
+        if ($user->is_admin) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
