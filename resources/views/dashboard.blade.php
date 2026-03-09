@@ -4,7 +4,11 @@
 
 @section('content')
 
-<h1>Welcome, {{ Auth::user()->name }}</h1>
+@if(Auth::user()->is_admin)
+    <h1>Welcome, Admin {{ Auth::user()->name }}</h1>
+@else
+    <h1>Welcome, {{ Auth::user()->name }}</h1>
+@endif
 
 <div class="dashboard-stats">
     <div class="stat-card">
