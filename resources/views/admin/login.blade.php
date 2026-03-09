@@ -119,7 +119,7 @@
     <div class="login-card">
 
         <!-- Back to User Login -->
-        <a href="{{ route('login') }}" class="back-link">
+        <a href="{{ route('user.login') }}" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to User Login
          
         </a>
