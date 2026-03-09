@@ -8,7 +8,7 @@ use App\Http\Controllers\AdminController;
 
 
 Route::get('/', function () {
-    return view('login');
+    return view('profile.login');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');
