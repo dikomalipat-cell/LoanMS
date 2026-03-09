@@ -98,19 +98,39 @@
             transform: translateY(0);
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #6b7280;
-            font-size: 0.9rem;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: color 0.3s ease;
+        /* Login Type Toggle */
+        .login-toggle {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
         }
 
-        .back-link:hover {
+        .login-toggle a {
+            flex: 1;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .login-toggle a:hover:not(.bg-white) {
+            color: #374151;
+        }
+
+        .login-toggle a.active {
+            background: white;
             color: #7c3aed;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .mode-icon {
+            margin-right: 6px;
         }
     </style>
 </head>
@@ -118,11 +138,15 @@
 <body>
     <div class="login-card">
 
-        <!-- Back to User Login -->
-        <a href="{{ route('profile.login') }}" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to User Login
-         
-        </a>
+        <!-- Login Type Toggle -->
+        <div class="login-toggle">
+            <a href="{{ route('profile.login') }}" id="btn-user" class="flex-1 text-center px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-user mode-icon"></i>User
+            </a>
+            <a href="{{ route('admin.login') }}" id="btn-admin" class="flex-1 text-center px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-white text-purple-600 shadow-sm">
+                <i class="fas fa-user-shield mode-icon"></i>Admin
+            </a>
+        </div>
 
         <!-- Logo / Brand -->
         <div class="text-center mb-6">
@@ -191,7 +215,7 @@
     </div>
 
     <script>
-        // Optional: Clear login type on load to ensure admin mode
+        // Set admin login type on load
         document.getElementById('login_type').value = 'admin';
     </script>
 </body>

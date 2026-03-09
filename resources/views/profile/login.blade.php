@@ -107,30 +107,17 @@
             margin-bottom: 24px;
         }
 
-        .login-toggle button {
+        .login-toggle a {
             flex: 1;
-            padding: 12px;
-            border: none;
+            text-decoration: none;
             border-radius: 10px;
             font-weight: 600;
             font-size: 0.9rem;
-            cursor: pointer;
             transition: all 0.3s ease;
-            background: transparent;
             color: #6b7280;
         }
 
-        .login-toggle button.active {
-            background: white;
-            color: #059669;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .login-toggle button.active.admin {
-            color: #7c3aed;
-        }
-
-        .login-toggle button:hover:not(.active) {
+        .login-toggle a:hover:not(.bg-white) {
             color: #374151;
         }
 
@@ -154,14 +141,12 @@
 
        
         <div class="login-toggle">
-            <button type="button" id="btn-user" class="active" onclick="setLoginType('user')">
+            <a href="{{ route('profile.login') }}" id="btn-user" class="flex-1 text-center px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-white text-green-600 shadow-sm">
                 <i class="fas fa-user mode-icon"></i>User
-                <a href="{{ route('profile.login') }}" class="absolute inset-0"></a>
-            </button>
-            <button type="button" id="btn-admin" onclick="setLoginType('admin')">
+            </a>
+            <a href="{{ route('admin.login') }}" id="btn-admin" class="flex-1 text-center px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-gray-500 hover:text-gray-700">
                 <i class="fas fa-user-shield mode-icon"></i>Admin
-                <a href="{{ route('admin.login') }}" class="absolute inset-0"></a>
-            </button>
+            </a>
         </div>
 
         @if ($errors->any())
@@ -222,6 +207,7 @@
             <!-- Login Button -->
             <button type="submit" class="btn-login" id="login-btn">
                 <i class="fas fa-sign-in-alt mr-2"></i> <span id="login-btn-text">Sign In</span>
+                
             </button>
         </form>
 
@@ -236,29 +222,12 @@
     </div>
 
     <script>
-        function setLoginType(type) {
-            // Update hidden field
-            document.getElementById('login_type').value = type;
-
-            // Update button states
-            document.getElementById('btn-user').classList.remove('active');
-            document.getElementById('btn-admin').classList.remove('active');
-            document.getElementById('btn-' + type).classList.add('active');
-
-            // Add admin class for purple styling
-            if (type === 'admin') {
-                document.getElementById('btn-admin').classList.add('admin');
-            } else {
-                document.getElementById('btn-admin').classList.remove('admin');
-            }
-
-            // Update subtitle
-            const subtitle = document.getElementById('login-subtitle');
-            if (type === 'admin') {
-                subtitle.textContent = 'Admin access only';
-            } else {
-                subtitle.textContent = 'Sign in to your account';
-            }
+        // Update admin button styling based on current route
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('admin')) {
+            document.getElementById('btn-admin').classList.add('bg-white', 'text-purple-600', 'shadow-sm');
+            document.getElementById('btn-user').classList.remove('bg-white', 'text-green-600', 'shadow-sm');
+            document.getElementById('btn-user').classList.add('text-gray-500', 'hover:text-gray-700');
         }
     </script>
 </body>

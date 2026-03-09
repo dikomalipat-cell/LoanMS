@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-
 
 Route::get('/', function () {
     return view('profile.login');
 });
+
+Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+Route::get('/user/login', [ProfileController::class, 'login'])->name('profile.login');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -18,8 +21,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
-    Route::get('profile',[ProfileController::class,'login'])->name('profile.login');
 
     Route::post('/Client', [ClientController::class, 'store'])->name('loan.store');
     Route::get('/Client', [ClientController::class, 'index'])->name('loan.index');

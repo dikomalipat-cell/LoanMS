@@ -12,6 +12,14 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
+     * Display the user login page.
+     */
+    public function login(): View
+    {
+        return view('profile.login');
+    }
+
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
