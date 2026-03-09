@@ -156,6 +156,7 @@
         <div class="login-toggle">
             <button type="button" id="btn-user" class="active" onclick="setLoginType('user')">
                 <i class="fas fa-user mode-icon"></i>User
+                <a href="{{ route('profile.login') }}" class="absolute inset-0"></a>
             </button>
             <button type="button" id="btn-admin" onclick="setLoginType('admin')">
                 <i class="fas fa-user-shield mode-icon"></i>Admin
