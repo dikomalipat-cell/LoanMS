@@ -152,13 +152,14 @@
             <p class="text-gray-500 text-sm mt-1" id="login-subtitle">Sign in to your account</p>
         </div>
 
-        <!-- Login Type Toggle -->
+       
         <div class="login-toggle">
             <button type="button" id="btn-user" class="active" onclick="setLoginType('user')">
                 <i class="fas fa-user mode-icon"></i>User
             </button>
             <button type="button" id="btn-admin" onclick="setLoginType('admin')">
                 <i class="fas fa-user-shield mode-icon"></i>Admin
+                <a href="{{ route('admin.login') }}" class="absolute inset-0"></a>
             </button>
         </div>
 
