@@ -60,6 +60,9 @@
                 <i class="fas fa-university text-sm"></i>
             </span>
             <span class="text-sm font-medium">Loan Banks</span>
+            @if(request()->is('banks'))
+                <span class="ml-auto w-1.5 h-1.5 bg-green-300 rounded-full"></span>
+            @endif
         </a>
 
         <a href="{{ url('/waykabayad') }}"
@@ -68,6 +71,9 @@
                 <i class="fas fa-calendar-day text-sm"></i>
             </span>
             <span class="text-sm font-medium">Unpaid Dues</span>
+            @if(request()->is('waykabayad'))
+                <span class="ml-auto w-1.5 h-1.5 bg-green-300 rounded-full"></span>
+            @endif
         </a>
 
         <a href="{{ url('/recent_payments') }}"
