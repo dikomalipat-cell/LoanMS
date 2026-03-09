@@ -121,7 +121,7 @@
         <!-- Back to User Login -->
         <a href="{{ route('login') }}" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to User Login
-            <a href="{{ route('login') }}" class="absolute inset-0"></a>
+         
         </a>
 
         <!-- Logo / Brand -->
