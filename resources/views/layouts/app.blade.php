@@ -10,12 +10,14 @@
     <style>
         * { font-family: 'Inter', sans-serif; }
         body { background-color: #f3f4f6; }
+        [x-cloak] { display: none !important; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
     </style>
-    <!-- Alpine.js for dropdowns -->
+    <!-- Alpine.js Collapse Plugin + Core -->
+    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 

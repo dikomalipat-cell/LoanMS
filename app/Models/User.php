@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'role',
     ];
 
     /**
@@ -45,6 +46,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'role' => 'string',
         ];
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
     }
 }
