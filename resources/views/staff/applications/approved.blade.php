@@ -21,9 +21,9 @@
                 @forelse($applications as $application)
                 <tr class="border-b border-gray-50 hover:bg-primary-dark transition">
                     <td class="p-4 text-sm font-medium text-white">APP-{{ date('Y') }}-{{ str_pad($application->id, 4, '0', STR_PAD_LEFT) }}</td>
-                    <td class="p-4 text-sm text-slate-300">{{ $application->name }}</td>
+                    <td class="p-4 text-sm text-slate-300">{{ $application->borrower->name ?? 'Unknown' }}</td>
                     <td class="p-4 text-sm font-medium text-white">₱ {{ number_format($application->loan_amount, 2) }}</td>
-                    <td class="p-4 text-sm text-slate-400">{{ $application->loan_date ? \Carbon\Carbon::parse($application->loan_date)->format('M d, Y') : $application->updated_at->format('M d, Y') }}</td>
+                    <td class="p-4 text-sm text-slate-400">{{ $application->disbursement_date ? $application->disbursement_date->format('M d, Y') : $application->updated_at->format('M d, Y') }}</td>
                     <td class="p-4"><span class="bg-gold/20 text-gold px-2 py-1 rounded-full text-xs font-semibold">Approved</span></td>
                 </tr>
                 @empty

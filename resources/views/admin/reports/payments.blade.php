@@ -45,9 +45,9 @@
                 @forelse($recentPayments as $p)
                 <tr class="hover:bg-primary-dark">
                     <td class="px-4 py-3 font-mono text-xs font-semibold text-slate-400">PAY-{{ $p->id }}</td>
-                    <td class="px-4 py-3 font-medium text-white">{{ $p->full_name }}</td>
-                    <td class="px-4 py-3 font-semibold text-gold">₱{{ number_format($p->loan_amount - $p->balance, 2) }}</td>
-                    <td class="px-4 py-3 text-slate-300">₱{{ number_format($p->balance, 2) }}</td>
+                    <td class="px-4 py-3 font-medium text-white">{{ $p->loan->borrower->name ?? 'Unknown' }}</td>
+                    <td class="px-4 py-3 font-semibold text-gold">₱{{ number_format($p->amount_paid, 2) }}</td>
+                    <td class="px-4 py-3 text-slate-300">₱{{ number_format($p->remaining_balance, 2) }}</td>
                     <td class="px-4 py-3 text-slate-400">{{ $p->updated_at->format('M d, Y') }}</td>
                     <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase bg-gold/20 text-gold">Verified</span></td>
                 </tr>

@@ -2,18 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Loan;
+use App\Models\User;
+
 class StaffBorrowerController extends Controller
 {
-    public function all()
+    /**
+     * Show all borrowers (users with role=user).
+     */
+    public function all(): \Illuminate\View\View
     {
-        $borrowers = \App\Models\Client::latest()->paginate(10);
+        $borrowers = User::where('role', 'user')
+            ->withCount('loans')
+            ->latest()
+            ->paginate(10);
 
         return view('staff.borrowers.all', compact('borrowers'));
     }
 
-    public function verified()
+    /**
+     * Show borrowers who have at least one approved/active loan.
+     */
+    public function verified(): \Illuminate\View\View
     {
-        $borrowers = \App\Models\Client::where('status', 'approved')->latest()->paginate(10);
+        $borrowers = User::where('role', 'user')
+            ->whereHas('loans', function ($query) {
+                $query->whereIn('status', ['approved', 'paid', 'overdue']);
+            })
+            ->withCount('loans')
+            ->latest()
+            ->paginate(10);
 
         return view('staff.borrowers.verified', compact('borrowers'));
     }

@@ -34,7 +34,7 @@
                     <span class="text-xs font-bold text-white">{{ $mo['v'] }} Applications</span>
                 </div>
                 <div class="w-full bg-primary-dark rounded-full h-2.5">
-                    <div class="bg-primary-light0 h-2.5 rounded-full" style="width: {{ $mo['pct'] }}%"></div>
+                    <div class="bg-gold h-2.5 rounded-full" style="width: {{ $mo['pct'] }}%"></div>
                 </div>
             </div>
             @empty
@@ -56,11 +56,11 @@
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     @php 
-                        $latestLoans = \App\Models\Client::latest()->take(5)->get();
+                        $latestLoans = \App\Models\Loan::with('borrower')->latest()->take(5)->get();
                     @endphp
                     @forelse($latestLoans as $loan)
                     <tr>
-                        <td class="py-3 font-medium text-white">{{ $loan->full_name }}</td>
+                        <td class="py-3 font-medium text-white">{{ $loan->borrower->name ?? 'Unknown' }}</td>
                         <td class="py-3 text-slate-300">₱{{ number_format($loan->loan_amount, 2) }}</td>
                         <td class="py-3">
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase {{ $loan->status == 'approved' ? 'bg-gold/20 text-gold' : 'bg-yellow-100 text-yellow-700' }}">

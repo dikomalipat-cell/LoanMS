@@ -10,9 +10,9 @@
     <div class="bg-primary rounded-xl shadow-sm border border-slate-700 p-5">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold">{{ strtoupper(substr($loan->full_name,0,1)) }}</div>
+                <div class="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold">{{ strtoupper(substr($loan->borrower->name ?? 'U',0,1)) }}</div>
                 <div>
-                    <h3 class="font-bold text-white">{{ $loan->full_name }}</h3>
+                    <h3 class="font-bold text-white">{{ $loan->borrower->name ?? 'Unknown' }}</h3>
                     <p class="text-sm text-slate-400">Applied: {{ $loan->created_at->format('M d, Y') }}</p>
                 </div>
             </div>
@@ -22,9 +22,24 @@
                 <div class="text-center"><p class="text-xs text-slate-400">Loan ID</p><p class="font-medium text-gray-700">LN-{{ $loan->id }}</p></div>
             </div>
             <div class="flex gap-2">
-                <button class="bg-gold text-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium hover-bg-gold transition"><i class="fas fa-check mr-1"></i> Approve</button>
-                <button class="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 transition"><i class="fas fa-times mr-1"></i> Reject</button>
-                <button class="bg-primary-dark text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition"><i class="fas fa-eye mr-1"></i> Review</button>
+                <form action="{{ route('admin.loans.approve', $loan) }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="bg-gold text-primary-dark font-bold px-4 py-2 rounded-lg text-sm hover:bg-gold-hover transition" onclick="return confirm('Are you sure you want to approve this loan?')">
+                        <i class="fas fa-check mr-1"></i> Approve
+                    </button>
+                </form>
+                
+                <form action="{{ route('admin.loans.reject', $loan) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to reject this loan?')">
+                    @csrf
+                    <input type="hidden" name="rejection_reason" value="Rejected by admin">
+                    <button type="submit" class="bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-500/30 transition">
+                        <i class="fas fa-times mr-1"></i> Reject
+                    </button>
+                </form>
+                
+                <a href="{{ route('admin.loans.index') }}" class="bg-primary-light text-slate-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-light/80 hover:text-white transition">
+                    <i class="fas fa-eye mr-1"></i> Details
+                </a>
             </div>
         </div>
     </div>

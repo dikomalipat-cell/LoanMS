@@ -22,6 +22,7 @@ use App\Http\Controllers\UserPaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// ─── PUBLIC ROUTES ───────────────────────────────────────────
 Route::get('/', function () {
     return view('welcome');
 });
@@ -29,27 +30,22 @@ Route::get('/', function () {
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::get('/user/login', [ProfileController::class, 'login'])->name('profile.login');
 
+// ─── AUTHENTICATED ROUTES ────────────────────────────────────
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    // Profile (all roles)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::post('/Client', [ClientController::class, 'store'])->name('loan.store');
-    Route::get('/Client', [ClientController::class, 'index'])->name('loan.index');
-    Route::get('/Client/create', [ClientController::class, 'create'])->name('loan.create');
-    Route::get('/Client/{client}/edit', [ClientController::class, 'edit'])->name('loan.edit');
-    Route::put('/Client/{client}', [ClientController::class, 'update'])->name('loan.update');
-    Route::delete('/Client/{client}', [ClientController::class, 'destroy'])->name('loan.destroy');
+    // ═══════════════════════════════════════════════════════════
+    // ADMIN ROUTES — Full System Access
+    // ═══════════════════════════════════════════════════════════
+    Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
 
-    Route::get('/banks', [BankController::class, 'index'])->name('banks.index');
-    Route::get('/waykabayad', [UnpaidDuesController::class, 'index'])->name('waykabayad.index');
-    Route::get('/recent_payments', [PaymentController::class, 'index'])->name('recent_payments.index');
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-
-    // Admin Sidebar Routes
-    Route::prefix('admin')->name('admin.')->group(function () {
+        // ── User Management ──
         Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
         Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
         Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
@@ -58,16 +54,23 @@ Route::middleware('auth')->group(function () {
             return view('admin.users.roles');
         })->name('users.roles');
 
+        // ── Loan Monitoring ──
         Route::get('/loans', [AdminController::class, 'loansIndex'])->name('loans.index');
         Route::get('/loans/pending', [AdminController::class, 'loansPending'])->name('loans.pending');
         Route::get('/loans/approved', [AdminController::class, 'loansApproved'])->name('loans.approved');
         Route::get('/loans/rejected', [AdminController::class, 'loansRejected'])->name('loans.rejected');
         Route::get('/loans/overdue', [AdminController::class, 'loansOverdue'])->name('loans.overdue');
 
+        // ── Loan Actions (Approve / Reject) ──
+        Route::post('/loans/{loan}/approve', [AdminController::class, 'approveLoan'])->name('loans.approve');
+        Route::post('/loans/{loan}/reject', [AdminController::class, 'rejectLoan'])->name('loans.reject');
+
+        // ── Reports & Analytics ──
         Route::get('/reports/loans', [AdminController::class, 'reportsLoans'])->name('reports.loans');
         Route::get('/reports/payments', [AdminController::class, 'reportsPayments'])->name('reports.payments');
         Route::get('/reports/activity', [AdminController::class, 'reportsActivity'])->name('reports.activity');
 
+        // ── System Settings ──
         Route::get('/settings/policies', function () {
             return view('admin.settings.policies');
         })->name('settings.policies');
@@ -81,47 +84,85 @@ Route::middleware('auth')->group(function () {
             return view('admin.settings.notifications');
         })->name('settings.notifications');
 
+        // ── Admin Notifications ──
         Route::get('/notifications', function () {
             return view('admin.notifications.index');
         })->name('notifications.index');
     });
 
-    // User Sidebar Routes
-    Route::get('/user/loans/active', [UserLoanController::class, 'active'])->name('user.loans.active');
-    Route::get('/user/loans/history', [UserLoanController::class, 'history'])->name('user.loans.history');
-    Route::get('/user/loans/apply', [ApplyLoanController::class, 'index'])->name('user.loans.apply');
-    Route::post('/user/loans/apply', [ApplyLoanController::class, 'store'])->name('user.loans.store');
+    // ═══════════════════════════════════════════════════════════
+    // STAFF ROUTES — Loan Processor, Verifier, Payment Recorder
+    // ═══════════════════════════════════════════════════════════
+    Route::prefix('staff')->name('staff.')->middleware('role:staff')->group(function () {
 
-    Route::get('/user/payments/make', [UserPaymentController::class, 'make'])->name('user.payments.make');
-    Route::post('/user/payments/make', [UserPaymentController::class, 'store'])->name('user.payments.store');
-    Route::get('/user/payments/history', [UserPaymentController::class, 'history'])->name('user.payments.history');
+        // ── Loan Applications (Verify → Forward to Admin) ──
+        Route::get('/applications/pending', [StaffApplicationController::class, 'pending'])->name('applications.pending');
+        Route::get('/applications/review/{loan}', [StaffApplicationController::class, 'reviewLoan'])->name('applications.review.show');
+        Route::post('/applications/{loan}/verify', [StaffApplicationController::class, 'verifyAndForward'])->name('applications.verify');
+        Route::get('/applications/approved', [StaffApplicationController::class, 'approved'])->name('applications.approved');
+        Route::get('/applications/rejected', [StaffApplicationController::class, 'rejected'])->name('applications.rejected');
 
-    Route::get('/user/documents/upload', [UserDocumentController::class, 'upload'])->name('user.documents.upload');
-    Route::post('/user/documents/upload', [UserDocumentController::class, 'store'])->name('user.documents.store');
-    Route::get('/user/documents/submitted', [UserDocumentController::class, 'submitted'])->name('user.documents.submitted');
+        // ── Borrower Management ──
+        Route::get('/borrowers/all', [StaffBorrowerController::class, 'all'])->name('borrowers.all');
+        Route::get('/borrowers/verified', [StaffBorrowerController::class, 'verified'])->name('borrowers.verified');
 
-    Route::get('/user/notifications', [NotificationController::class, 'index'])->name('user.notifications');
+        // ── Payment Management (Record Payments) ──
+        Route::get('/payments/tracking', [StaffPaymentController::class, 'tracking'])->name('payments.tracking');
+        Route::post('/payments/record', [StaffPaymentController::class, 'recordPayment'])->name('payments.record');
+        Route::get('/payments/history', [StaffPaymentController::class, 'history'])->name('payments.history');
 
-    // Staff Sidebar Routes
-    Route::get('/staff/applications/pending', [StaffApplicationController::class, 'pending'])->name('staff.applications.pending');
-    Route::get('/staff/applications/review', [StaffApplicationController::class, 'review'])->name('staff.applications.review');
-    Route::get('/staff/applications/approved', [StaffApplicationController::class, 'approved'])->name('staff.applications.approved');
-    Route::get('/staff/applications/rejected', [StaffApplicationController::class, 'rejected'])->name('staff.applications.rejected');
+        // ── Schedule Monitoring ──
+        Route::get('/schedule/due', [StaffScheduleController::class, 'due'])->name('schedule.due');
+        Route::get('/schedule/overdue', [StaffScheduleController::class, 'overdue'])->name('schedule.overdue');
 
-    Route::get('/staff/borrowers/all', [StaffBorrowerController::class, 'all'])->name('staff.borrowers.all');
-    Route::get('/staff/borrowers/verified', [StaffBorrowerController::class, 'verified'])->name('staff.borrowers.verified');
+        // ── Staff Notifications ──
+        Route::get('/notifications', [StaffNotificationController::class, 'index'])->name('notifications');
+    });
 
-    Route::get('/staff/payments/tracking', [StaffPaymentController::class, 'tracking'])->name('staff.payments.tracking');
-    Route::get('/staff/payments/history', [StaffPaymentController::class, 'history'])->name('staff.payments.history');
+    // ═══════════════════════════════════════════════════════════
+    // USER / BORROWER ROUTES — Apply, Pay, Monitor
+    // ═══════════════════════════════════════════════════════════
+    Route::prefix('user')->name('user.')->middleware('role:user')->group(function () {
 
-    Route::get('/staff/schedule/due', [StaffScheduleController::class, 'due'])->name('staff.schedule.due');
-    Route::get('/staff/schedule/overdue', [StaffScheduleController::class, 'overdue'])->name('staff.schedule.overdue');
+        // ── Loan Application ──
+        Route::get('/loans/apply', [ApplyLoanController::class, 'index'])->name('loans.apply');
+        Route::post('/loans/apply', [ApplyLoanController::class, 'store'])->name('loans.store');
+        Route::get('/loans/active', [UserLoanController::class, 'active'])->name('loans.active');
+        Route::get('/loans/history', [UserLoanController::class, 'history'])->name('loans.history');
 
-    Route::get('/staff/notifications', [StaffNotificationController::class, 'index'])->name('staff.notifications');
+        // ── Payments ──
+        Route::get('/payments/make', [UserPaymentController::class, 'make'])->name('payments.make');
+        Route::post('/payments/make', [UserPaymentController::class, 'store'])->name('payments.store');
+        Route::get('/payments/history', [UserPaymentController::class, 'history'])->name('payments.history');
+
+        // ── Documents ──
+        Route::get('/documents/upload', [UserDocumentController::class, 'upload'])->name('documents.upload');
+        Route::post('/documents/upload', [UserDocumentController::class, 'store'])->name('documents.store');
+        Route::get('/documents/submitted', [UserDocumentController::class, 'submitted'])->name('documents.submitted');
+
+        // ── User Notifications ──
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    });
+
+    // Legacy routes (shared)
+    Route::post('/Client', [ClientController::class, 'store'])->name('loan.store');
+    Route::get('/Client', [ClientController::class, 'index'])->name('loan.index');
+    Route::get('/Client/create', [ClientController::class, 'create'])->name('loan.create');
+    Route::get('/Client/{client}/edit', [ClientController::class, 'edit'])->name('loan.edit');
+    Route::put('/Client/{client}', [ClientController::class, 'update'])->name('loan.update');
+    Route::delete('/Client/{client}', [ClientController::class, 'destroy'])->name('loan.destroy');
+
+    Route::get('/banks', [BankController::class, 'index'])->name('banks.index');
+    Route::get('/waykabayad', [UnpaidDuesController::class, 'index'])->name('waykabayad.index');
+    Route::get('/recent_payments', [PaymentController::class, 'index'])->name('recent_payments.index');
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 });
+
 // Logout route
 Route::post('/logout', function () {
     Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
 
     return redirect('/');
 })->name('logout');

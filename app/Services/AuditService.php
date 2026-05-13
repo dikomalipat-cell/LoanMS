@@ -110,7 +110,7 @@ class AuditService
             'create',
             'User',
             $userId,
-            "New user created: {$userData['email'] ?? ''}",
+            "New user created: " . ($userData['email'] ?? ''),
             null,
             $userData,
             $request

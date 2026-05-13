@@ -56,7 +56,7 @@
                 <div class="hidden md:flex items-center space-x-4">
                     @if (Route::has('admin.login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="font-medium text-slate-300 hover:text-white transition">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="font-medium text-slate-300 hover:text-white transition"></a>
                         @else
                             <a href="{{ route('profile.login') }}" class="font-medium text-slate-300 hover:text-white transition">Log in</a>
                             

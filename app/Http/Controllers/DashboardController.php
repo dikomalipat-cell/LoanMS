@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Loan;
 use App\Models\Payment;
+use App\Models\User;
 use App\Services\LoanService;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ class DashboardController extends Controller
         $this->loanService = $loanService;
     }
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         $user = Auth::user();
         $role = $user->role ?? 'user';
@@ -30,48 +31,68 @@ class DashboardController extends Controller
         }
     }
 
-    private function adminDashboard(string $role)
+    /**
+     * ADMIN DASHBOARD
+     * Shows: total borrowers, active loans, overdue loans, disbursement/collection totals
+     */
+    private function adminDashboard(string $role): \Illuminate\View\View
     {
         $stats = [
-            'total_borrowers' => \App\Models\User::where('role', 'user')->count(),
+            'total_borrowers' => User::where('role', 'user')->count(),
             'active_loans' => Loan::whereIn('status', ['approved', 'overdue'])->count(),
             'overdue_followups' => Loan::where('status', 'overdue')->count(),
             'total_disbursed' => Loan::sum('loan_amount'),
             'total_collected' => Payment::sum('amount_paid'),
+            'pending_applications' => Loan::where('status', 'pending')->count(),
         ];
 
         $recentLoans = Loan::with('borrower')->latest()->take(5)->get();
         $recentPayments = Payment::with('loan.borrower')->latest()->take(5)->get();
-        $client = null;
 
-        return view('dashboard', compact('role', 'stats', 'recentLoans', 'recentPayments', 'client'));
+        return view('dashboard', compact('role', 'stats', 'recentLoans', 'recentPayments'));
     }
 
-    private function staffDashboard(string $role)
+    /**
+     * STAFF DASHBOARD
+     * Shows: pending applications, payments to verify, due/overdue counts
+     */
+    private function staffDashboard(string $role): \Illuminate\View\View
     {
         $stats = [
             'pending_apps' => Loan::where('status', 'pending')->count(),
             'payments_to_verify' => Payment::where('created_at', '>=', now()->subDay())->count(),
             'due_today' => Loan::where('status', 'approved')
+                ->whereNotNull('start_date')
                 ->get()
                 ->filter(function ($loan) {
-                    return $this->loanService->getNextPaymentDate($loan) === now()->toDateString();
+                    $nextDate = $this->loanService->getNextPaymentDate($loan);
+
+                    return $nextDate && $nextDate === now()->toDateString();
                 })
                 ->count(),
-            'overdue_followups' => Loan::where('status', 'overdue')->orWhere('end_date', '<', now())->count(),
+            'overdue_followups' => Loan::where('status', 'overdue')
+                ->orWhere(function ($q) {
+                    $q->where('status', 'approved')->where('end_date', '<', now());
+                })
+                ->count(),
         ];
 
         $pendingLoans = Loan::where('status', 'pending')->with('borrower')->latest()->take(10)->get();
         $duePayments = Loan::where('status', 'approved')->with('payments', 'borrower')->get();
-        $client = null;
 
-        return view('dashboard', compact('role', 'stats', 'pendingLoans', 'duePayments', 'client'));
+        return view('dashboard', compact('role', 'stats', 'pendingLoans', 'duePayments'));
     }
 
-    private function userDashboard(string $role)
+    /**
+     * USER / BORROWER DASHBOARD
+     * Shows: active loan details, payment schedule, remaining balance
+     */
+    private function userDashboard(string $role): \Illuminate\View\View
     {
         $user = Auth::user();
-        $activeLoan = $user->loans()->where('status', 'approved')->orWhere('status', 'overdue')->first();
+        $activeLoan = $user->loans()
+            ->whereIn('status', ['approved', 'overdue'])
+            ->first();
 
         $stats = null;
         $nextPaymentDate = null;
@@ -86,8 +107,7 @@ class DashboardController extends Controller
         }
 
         $pendingLoans = $user->loans()->where('status', 'pending')->count();
-        $unreadNotifications = $user->getUnreadNotificationsCount();
-        $client = $user->client;
+        $unreadNotifications = $user->notifications()->where('is_read', false)->count();
 
         return view('dashboard', compact(
             'activeLoan',
@@ -97,8 +117,7 @@ class DashboardController extends Controller
             'recentPayments',
             'pendingLoans',
             'unreadNotifications',
-            'role',
-            'client'
+            'role'
         ));
     }
 }
