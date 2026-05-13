@@ -2,36 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLoanRequest;
+use App\Models\Loan;
+use App\Services\LoanService;
+use App\Services\NotificationService;
+use App\Services\AuditService;
+
 class ApplyLoanController extends Controller
 {
-    public function index()
-    {
-        return view('user.loans.apply');
+    protected LoanService $loanService;
+    protected NotificationService $notificationService;
+    protected AuditService $auditService;
+
+    public function __construct(
+        LoanService $loanService,
+        NotificationService $notificationService,
+        AuditService $auditService
+    ) {
+        $this->loanService = $loanService;
+        $this->notificationService = $notificationService;
+        $this->auditService = $auditService;
     }
 
-    public function store(\Illuminate\Http\Request $request)
+    public function index()
     {
-        $request->validate([
-            'loan_amount' => 'required|numeric|min:1',
-            'loan_term' => 'required|integer',
-        ]);
+        $defaultInterestRate = 8.5; // Default interest rate (can be made configurable)
+        return view('user.loans.apply', ['defaultInterestRate' => $defaultInterestRate]);
+    }
 
+    public function store(StoreLoanRequest $request)
+    {
         $user = auth()->user();
+        $defaultInterestRate = 8.5; // Default interest rate
 
-        // Find or create client for the user
-        $client = \App\Models\Client::updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'name' => $user->name,
-                'email' => $user->email,
-                'loan_amount' => $request->loan_amount,
-                'balance' => $request->loan_amount,
-                'loan_date' => now(),
-                'due_date' => now()->addMonths((int) $request->loan_term),
-                'status' => 'pending',
-            ]
+        $loan = $this->loanService->createLoan(
+            $user->id,
+            (float) $request->loan_amount,
+            (int) $request->loan_term,
+            $defaultInterestRate
         );
 
-        return redirect()->route('dashboard')->with('success', 'Loan application submitted successfully.');
+        // Log the action
+        $this->auditService->logLoanCreated(
+            $loan->id,
+            $loan->toArray(),
+            $request
+        );
+
+        // Create notification
+        $this->notificationService->notifyLoanApplicationCreated(
+            $user->id,
+            $loan->loan_amount,
+            $loan->loan_term
+        );
+
+        // Notify admins about new application
+        $this->notificationService->notifyAdmins(
+            'New Loan Application',
+            "{$user->name} has submitted a loan application for ₱" . number_format($loan->loan_amount, 2),
+            'info',
+            'new_application'
+        );
+
+        return redirect()->route('user.loans.active')
+            ->with('success', 'Loan application submitted successfully! Your application is now pending review.');
     }
 }

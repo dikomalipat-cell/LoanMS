@@ -54,4 +54,59 @@ class User extends Authenticatable
     {
         return $this->hasOne(Client::class);
     }
+
+    // Loan relationships
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
+
+    public function approvedLoans()
+    {
+        return $this->hasMany(Loan::class, 'approved_by');
+    }
+
+    // Payment relationships
+    public function paymentsReceived()
+    {
+        return $this->hasMany(Payment::class, 'received_by');
+    }
+
+    // Notification relationships
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    // Audit log relationships
+    public function auditLogs()
+    {
+        return $this->hasMany(AuditLog::class);
+    }
+
+    // Helper methods
+    public function isAdmin()
+    {
+        return $this->role === 'admin' || $this->is_admin;
+    }
+
+    public function isStaff()
+    {
+        return $this->role === 'staff';
+    }
+
+    public function isBorrower()
+    {
+        return $this->role === 'user';
+    }
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+
+    public function getUnreadNotificationsCount()
+    {
+        return $this->notifications()->unread()->count();
+    }
 }
