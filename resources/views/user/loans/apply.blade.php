@@ -4,11 +4,11 @@
 
 @section('content')
 <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Apply for a Loan</h1>
-    <p class="text-gray-600 mt-1">Fill out the form below to request a new loan.</p>
+    <h1 class="text-2xl font-bold text-white">Apply for a Loan</h1>
+    <p class="text-slate-300 mt-1">Fill out the form below to request a new loan.</p>
 </div>
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-3xl">
+<div class="bg-primary rounded-xl shadow-sm border border-slate-700 p-6 max-w-3xl">
     <form action="{{ route('user.loans.store') }}" method="POST" class="space-y-6">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -31,9 +31,9 @@
             <textarea rows="4" placeholder="Briefly describe why you need this loan..." class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"></textarea>
         </div>
 
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <h3 class="font-medium text-gray-800 mb-2">Terms and Conditions</h3>
-            <p class="text-xs text-gray-600 mb-3">By applying for this loan, you agree to the standard interest rates and understand that late payments may incur additional penalty fees.</p>
+        <div class="bg-primary-dark p-4 rounded-lg border border-slate-700">
+            <h3 class="font-medium text-white mb-2">Terms and Conditions</h3>
+            <p class="text-xs text-slate-300 mb-3">By applying for this loan, you agree to the standard interest rates and understand that late payments may incur additional penalty fees.</p>
             <label class="flex items-center">
                 <input type="checkbox" class="rounded text-green-500 focus:ring-green-500 w-4 h-4 mr-2">
                 <span class="text-sm text-gray-700">I agree to the terms and conditions</span>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="flex justify-end pt-4">
-            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+            <button type="submit" class="bg-gold text-primary-dark hover-bg-gold text-white px-6 py-2 rounded-lg font-medium transition">
                 Submit Application
             </button>
         </div>

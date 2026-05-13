@@ -4,12 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Loan Management System')</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Outfit', sans-serif; }
+        .bg-primary-dark { background-color: #0f172a; } /* Slate 900 */
+        .bg-primary { background-color: #1e293b; } /* Slate 800 */
+        .bg-primary-light { background-color: #334155; } /* Slate 700 */
+        .text-gold { color: #f5c518; }
+        .bg-gold { background-color: #f5c518; }
+        .border-gold { border-color: #f5c518; }
+        .hover-bg-gold:hover { background-color: #eab308; }
+    </style>
+    <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #f3f4f6; }
+        body { background-color: #0f172a; }
         [x-cloak] { display: none !important; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -21,7 +32,7 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800 antialiased">
+<body class="bg-primary-dark text-slate-300 antialiased">
 
     <!-- Mobile sidebar overlay -->
     <div id="sidebar-overlay"
@@ -45,7 +56,7 @@
             </main>
 
             {{-- Footer --}}
-            <footer class="text-center text-xs text-gray-400 py-4 border-t border-gray-200 bg-white">
+            <footer class="text-center text-xs text-slate-500 py-4 border-t border-slate-700 bg-primary">
                 © {{ date('Y') }} Loan Management System. All rights reserved.
             </footer>
         </div>

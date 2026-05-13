@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">System Settings</h1>
-    <p class="text-gray-600 mt-1">Configure your loan management system preferences.</p>
+    <h1 class="text-2xl font-bold text-white">System Settings</h1>
+    <p class="text-slate-300 mt-1">Configure your loan management system preferences.</p>
 </div>
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-4xl">
-    <div class="border-b border-gray-200 mb-6 pb-4">
-        <h2 class="text-lg font-semibold text-gray-800">General Settings</h2>
+<div class="bg-primary rounded-xl shadow-sm border border-slate-700 p-6 max-w-4xl">
+    <div class="border-b border-slate-700 mb-6 pb-4">
+        <h2 class="text-lg font-semibold text-white">General Settings</h2>
     </div>
 
     <form action="#" method="POST" class="space-y-6">
@@ -41,8 +41,8 @@
             </div>
         </div>
 
-        <div class="border-t border-gray-200 pt-6 mt-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Loan Parameters</h2>
+        <div class="border-t border-slate-700 pt-6 mt-6">
+            <h2 class="text-lg font-semibold text-white mb-4">Loan Parameters</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Default Interest Rate (%)</label>
@@ -56,7 +56,7 @@
         </div>
 
         <div class="flex justify-end mt-8">
-            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+            <button type="submit" class="bg-gold text-primary-dark hover-bg-gold text-white px-6 py-2 rounded-lg font-medium transition">
                 Save Changes
             </button>
         </div>

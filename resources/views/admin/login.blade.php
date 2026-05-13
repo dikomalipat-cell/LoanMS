@@ -7,8 +7,8 @@
     @vite(['resources/css/app.css'])
 </head>
 <body class="antialiased">
-    <div class="min-h-screen flex items-center justify-center bg-gray-50">
-        <div class="w-full max-w-md bg-white shadow rounded p-6">
+    <div class="min-h-screen flex items-center justify-center bg-primary-dark">
+        <div class="w-full max-w-md bg-primary shadow rounded p-6">
             <h1 class="text-2xl font-semibold mb-6">Login</h1>
 
             @if ($errors->any())

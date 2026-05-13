@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Loan Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -16,7 +16,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -65,9 +65,9 @@
         }
 
         .input-group input:focus {
-            border-color: #059669;
+            border-color: #f5c518;
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+            box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.1);
         }
 
         .input-group .icon {
@@ -82,28 +82,28 @@
 
         .input-group input:focus~.icon,
         .input-group:focus-within .icon {
-            color: #059669;
+            color: #f5c518;
         }
 
         .btn-login {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #059669, #047857);
-            color: white;
-            font-weight: 600;
+            background: linear-gradient(135deg, #f5c518, #eab308);
+            color: #0f172a;
+            font-weight: 700;
             font-size: 1rem;
             border: none;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+            box-shadow: 0 4px 15px rgba(245, 197, 24, 0.4);
             letter-spacing: 0.3px;
         }
 
         .btn-login:hover {
-            background: linear-gradient(135deg, #047857, #065f46);
+            background: linear-gradient(135deg, #eab308, #ca8a04);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.5);
+            box-shadow: 0 8px 25px rgba(245, 197, 24, 0.5);
         }
 
         .btn-login:active {
@@ -129,7 +129,7 @@
             color: #6b7280;
         }
 
-        .login-toggle a:hover:not(.bg-white) {
+        .login-toggle a:hover:not(.bg-primary) {
             color: #374151;
         }
 
@@ -144,8 +144,8 @@
 
         <!-- Logo / Brand -->
         <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-2xl mb-4">
-                <i class="fas fa-coins text-3xl text-green-600"></i>
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gold/20 rounded-2xl mb-4">
+                <i class="fas fa-coins text-3xl text-gold"></i>
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Loan Management</h1>
             <p class="text-gray-500 text-sm mt-1" id="login-subtitle">Sign in to your account</p>
@@ -193,14 +193,14 @@
 
             <!-- Remember Me & Forgot Password -->
             <div class="flex justify-between items-center mb-6 text-sm">
-                <label class="flex items-center gap-2 cursor-pointer text-gray-600">
+                <label class="flex items-center gap-2 cursor-pointer text-slate-400">
                     <input type="checkbox" name="remember"
-                        class="w-4 h-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                        class="w-4 h-4 rounded border-gray-300 text-gold focus:ring-gold">
                     Remember me
                 </label>
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}"
-                        class="text-green-600 hover:text-green-700 font-medium hover:underline">
+                        class="text-gold hover:text-gold-hover font-medium hover:underline">
                         Forgot password?
                     </a>
                 @endif
@@ -216,7 +216,7 @@
         <!-- Register Link -->
         <p class="text-center text-sm text-gray-500 mt-6">
             Don't have an account?
-            <a href="{{ route('register') }}" class="text-green-600 font-semibold hover:underline">
+            <a href="{{ route('register') }}" class="text-gold font-semibold hover:underline">
                 Create one
             </a>
         </p>
@@ -227,8 +227,8 @@
         // Update admin button styling based on current route
         const currentPath = window.location.pathname;
         if (currentPath.includes('admin')) {
-            document.getElementById('btn-admin').classList.add('bg-white', 'text-purple-600', 'shadow-sm');
-            document.getElementById('btn-user').classList.remove('bg-white', 'text-green-600', 'shadow-sm');
+            document.getElementById('btn-admin').classList.add('bg-primary', 'text-purple-600', 'shadow-sm');
+            document.getElementById('btn-user').classList.remove('bg-primary', 'text-gold', 'shadow-sm');
             document.getElementById('btn-user').classList.add('text-gray-500', 'hover:text-gray-700');
         }
     </script>

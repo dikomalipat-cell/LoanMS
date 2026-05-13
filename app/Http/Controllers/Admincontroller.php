@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use App\Models\Loan;
 use App\Models\Payment;
-use App\Models\AuditLog;
-use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -24,6 +23,7 @@ class AdminController extends Controller
             'pending' => Loan::where('status', 'pending')->count(),
             'paid' => Loan::where('status', 'paid')->count(),
             'rejected' => Loan::where('status', 'rejected')->count(),
+            'overdue' => Loan::where('status', 'overdue')->count(),
         ];
 
         return view('admin.loans.index', compact('loans', 'stats'));
@@ -32,18 +32,21 @@ class AdminController extends Controller
     public function loansPending()
     {
         $loans = Loan::where('status', 'pending')->with('borrower')->latest()->paginate(15);
+
         return view('admin.loans.pending', compact('loans'));
     }
 
     public function loansApproved()
     {
         $loans = Loan::where('status', 'approved')->with('borrower', 'approvedBy')->latest()->paginate(15);
+
         return view('admin.loans.approved', compact('loans'));
     }
 
     public function loansRejected()
     {
         $loans = Loan::where('status', 'rejected')->with('borrower')->latest()->paginate(15);
+
         return view('admin.loans.rejected', compact('loans'));
     }
 
@@ -121,4 +124,3 @@ class AdminController extends Controller
         return view('admin.reports.activity', compact('auditLogs'));
     }
 }
-

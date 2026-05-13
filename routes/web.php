@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('profile.login');
+    return view('welcome');
 });
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');

@@ -2,8 +2,8 @@
 @section('title', 'Overdue Loans')
 @section('content')
 <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Overdue Loans</h1>
-    <p class="text-gray-500 text-sm mt-1">Loans with missed payment deadlines requiring attention.</p>
+    <h1 class="text-2xl font-bold text-white">Overdue Loans</h1>
+    <p class="text-slate-400 text-sm mt-1">Loans with missed payment deadlines requiring attention.</p>
 </div>
 <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-center gap-3">
     <i class="fas fa-exclamation-triangle text-red-500 text-lg"></i>
@@ -12,10 +12,10 @@
         <p class="text-xs text-red-600">Total overdue amount: ₱{{ number_format($loans->sum('balance'), 2) }}</p>
     </div>
 </div>
-<div class="bg-white rounded-xl shadow-sm border border-gray-100">
+<div class="bg-primary rounded-xl shadow-sm border border-slate-700">
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
+            <thead class="bg-primary-dark text-slate-300 text-xs uppercase tracking-wider">
                 <tr>
                     <th class="px-4 py-3 text-left">Loan ID</th>
                     <th class="px-4 py-3 text-left">Borrower</th>
@@ -29,7 +29,7 @@
                 @forelse($loans as $loan)
                 <tr class="hover:bg-red-50 transition">
                     <td class="px-4 py-3 font-mono text-xs font-semibold text-gray-700">LN-{{ $loan->id }}</td>
-                    <td class="px-4 py-3 font-medium text-gray-800">{{ $loan->full_name }}</td>
+                    <td class="px-4 py-3 font-medium text-white">{{ $loan->full_name }}</td>
                     <td class="px-4 py-3 font-bold text-red-600">₱{{ number_format($loan->balance, 2) }}</td>
                     <td class="px-4 py-3">
                         @php 
@@ -52,13 +52,13 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="px-4 py-8 text-center text-gray-500">No overdue loans found.</td>
+                    <td colspan="6" class="px-4 py-8 text-center text-slate-400">No overdue loans found.</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
-    <div class="p-4 border-t border-gray-100">
+    <div class="p-4 border-t border-slate-700">
         {{ $loans->links() }}
     </div>
 </div>

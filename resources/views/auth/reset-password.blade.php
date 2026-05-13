@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password | Loan Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -76,7 +76,7 @@
         .btn-submit {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #059669, #047857);
+            background: linear-gradient(135deg, #f5c518, #eab308);
             color: white;
             font-weight: 600;
             font-size: 1rem;
@@ -89,7 +89,7 @@
         }
 
         .btn-submit:hover {
-            background: linear-gradient(135deg, #047857, #065f46);
+            background: linear-gradient(135deg, #eab308, #ca8a04);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(5, 150, 105, 0.5);
         }
@@ -105,11 +105,11 @@
 
         <!-- Logo / Brand -->
         <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-2xl mb-4">
-                <i class="fas fa-lock text-2xl text-green-600"></i>
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gold/20 rounded-2xl mb-4">
+                <i class="fas fa-lock text-2xl text-gold"></i>
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Reset Password</h1>
-            <p class="text-gray-500 text-sm mt-2">Enter your new password below.</p>
+            <p class="text-slate-400 text-sm mt-2">Enter your new password below.</p>
         </div>
 
         @if ($errors->any())
