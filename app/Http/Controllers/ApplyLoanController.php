@@ -50,18 +50,16 @@ class ApplyLoanController extends Controller
         );
 
         // Create notification
-        $this->notificationService->notifyLoanApplicationCreated(
-            $user->id,
-            $loan->loan_amount,
-            $loan->loan_term
-        );
+        $this->notificationService->notifyLoanApplicationCreated($loan);
 
         // Notify admins about new application
         $this->notificationService->notifyAdmins(
             'New Loan Application',
             "{$user->name} has submitted a loan application for ₱" . number_format($loan->loan_amount, 2),
             'info',
-            'new_application'
+            'new_application',
+            get_class($loan),
+            $loan->id
         );
 
         return redirect()->route('user.loans.active')

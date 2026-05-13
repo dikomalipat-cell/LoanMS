@@ -38,10 +38,12 @@ class NotificationService
         string $title,
         string $message,
         string $type = 'info',
-        ?string $notificationType = null
+        ?string $notificationType = null,
+        ?string $notifiableType = null,
+        ?int $notifiableId = null
     ): void {
         foreach ($userIds as $userId) {
-            $this->createNotification($userId, $title, $message, $type, $notificationType);
+            $this->createNotification($userId, $title, $message, $type, $notificationType, $notifiableType, $notifiableId);
         }
     }
 
@@ -52,10 +54,12 @@ class NotificationService
         string $title,
         string $message,
         string $type = 'info',
-        ?string $notificationType = null
+        ?string $notificationType = null,
+        ?string $notifiableType = null,
+        ?int $notifiableId = null
     ): void {
         $staffUsers = User::where('role', 'staff')->pluck('id');
-        $this->createBulkNotifications($staffUsers->toArray(), $title, $message, $type, $notificationType);
+        $this->createBulkNotifications($staffUsers->toArray(), $title, $message, $type, $notificationType, $notifiableType, $notifiableId);
     }
 
     /**
@@ -65,10 +69,12 @@ class NotificationService
         string $title,
         string $message,
         string $type = 'info',
-        ?string $notificationType = null
+        ?string $notificationType = null,
+        ?string $notifiableType = null,
+        ?int $notifiableId = null
     ): void {
         $adminUsers = User::where('role', 'admin')->pluck('id');
-        $this->createBulkNotifications($adminUsers->toArray(), $title, $message, $type, $notificationType);
+        $this->createBulkNotifications($adminUsers->toArray(), $title, $message, $type, $notificationType, $notifiableType, $notifiableId);
     }
 
     /**
@@ -152,36 +158,42 @@ class NotificationService
     /**
      * Create loan application notification
      */
-    public function notifyLoanApplicationCreated(int $userId, float $amount, int $term): void
+    public function notifyLoanApplicationCreated(\App\Models\Loan $loan): void
     {
         $this->createNotification(
-            $userId,
+            $loan->user_id,
             'Loan Application Submitted',
-            "Your loan application for ₱" . number_format($amount, 2) . " for {$term} months has been submitted.",
+            "Your loan application for ₱" . number_format($loan->loan_amount, 2) . " for {$loan->loan_term} months has been submitted.",
             'success',
-            'loan_applied'
+            'loan_applied',
+            get_class($loan),
+            $loan->id
         );
     }
 
     /**
      * Create loan approved notification
      */
-    public function notifyLoanApproved(int $userId, float $amount): void
+    public function notifyLoanApproved(\App\Models\Loan $loan): void
     {
         $this->createNotification(
-            $userId,
+            $loan->user_id,
             'Loan Approved',
-            "Your loan application of ₱" . number_format($amount, 2) . " has been approved!",
+            "Your loan application of ₱" . number_format($loan->loan_amount, 2) . " has been approved!",
             'success',
-            'loan_approved'
+            'loan_approved',
+            get_class($loan),
+            $loan->id
         );
 
         // Also notify staff
         $this->notifyStaff(
             'Loan Approved',
-            "A loan of ₱" . number_format($amount, 2) . " has been approved.",
+            "A loan of ₱" . number_format($loan->loan_amount, 2) . " has been approved for {$loan->borrower->name}.",
             'info',
-            'loan_approved'
+            'loan_approved',
+            get_class($loan),
+            $loan->id
         );
     }
 

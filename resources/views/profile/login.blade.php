@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        * {
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
-        }
+        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,7 +23,7 @@
             background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
             width: 100%;
             max-width: 420px;
             padding: 40px 36px;
@@ -36,15 +31,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .input-group {
@@ -65,9 +53,9 @@
         }
 
         .input-group input:focus {
-            border-color: #f5c518;
+            border-color: #059669;
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.1);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
         }
 
         .input-group .icon {
@@ -80,61 +68,34 @@
             transition: color 0.3s;
         }
 
-        .input-group input:focus~.icon,
+        .input-group input:focus ~ .icon,
         .input-group:focus-within .icon {
-            color: #f5c518;
+            color: #059669;
         }
 
         .btn-login {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, #f5c518, #eab308);
-            color: #0f172a;
+            color: #064e3b;
             font-weight: 700;
             font-size: 1rem;
             border: none;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(245, 197, 24, 0.4);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
             letter-spacing: 0.3px;
         }
 
         .btn-login:hover {
             background: linear-gradient(135deg, #eab308, #ca8a04);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(245, 197, 24, 0.5);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.5);
         }
 
         .btn-login:active {
             transform: translateY(0);
-        }
-
-        /* Login Type Toggle */
-        .login-toggle {
-            display: flex;
-            background: #f3f4f6;
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 24px;
-        }
-
-        .login-toggle a {
-            flex: 1;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            color: #6b7280;
-        }
-
-        .login-toggle a:hover:not(.bg-primary) {
-            color: #374151;
-        }
-
-        .mode-icon {
-            margin-right: 6px;
         }
     </style>
 </head>
@@ -143,19 +104,16 @@
     <div class="login-card">
 
         <!-- Logo / Brand -->
-        <div class="text-center mb-6">
+        <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-gold/20 rounded-2xl mb-4">
                 <i class="fas fa-coins text-3xl text-gold"></i>
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Loan Management</h1>
-            <p class="text-gray-500 text-sm mt-1" id="login-subtitle">Sign in to your account</p>
+            <p class="text-slate-400 text-sm mt-1">Sign in to your account</p>
         </div>
 
-
-
         @if ($errors->any())
-            <div
-                class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 text-sm flex items-start gap-2">
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-5 text-sm flex items-start gap-2">
                 <i class="fas fa-exclamation-circle mt-0.5 flex-shrink-0"></i>
                 <div>
                     @foreach ($errors->all() as $error)
@@ -168,15 +126,14 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- Hidden field for login type -->
-            <input type="hidden" name="login_type" id="login_type" value="user">
-
             <!-- Email -->
             <div class="mb-1">
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                 <div class="input-group">
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="you@example.com"
-                        required autofocus autocomplete="email">
+                    <input type="email" name="email" id="email"
+                        value="{{ old('email') }}"
+                        placeholder="you@example.com"
+                        required autofocus autocomplete="username">
                     <i class="fas fa-envelope icon"></i>
                 </div>
             </div>
@@ -185,53 +142,42 @@
             <div class="mb-1">
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
                 <div class="input-group">
-                    <input type="password" name="password" id="password" placeholder="••••••••" required
-                        autocomplete="current-password">
+                    <input type="password" name="password" id="password"
+                        placeholder="••••••••"
+                        required autocomplete="current-password">
                     <i class="fas fa-lock icon"></i>
                 </div>
             </div>
 
             <!-- Remember Me & Forgot Password -->
             <div class="flex justify-between items-center mb-6 text-sm">
-                <label class="flex items-center gap-2 cursor-pointer text-slate-400">
+                <label class="flex items-center gap-2 cursor-pointer text-slate-500">
                     <input type="checkbox" name="remember"
-                        class="w-4 h-4 rounded border-gray-300 text-gold focus:ring-gold">
+                        class="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500">
                     Remember me
                 </label>
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}"
-                        class="text-gold hover:text-gold-hover font-medium hover:underline">
+                        class="text-emerald-600 hover:text-emerald-700 font-semibold hover:underline">
                         Forgot password?
                     </a>
                 @endif
             </div>
 
             <!-- Login Button -->
-            <button type="submit" class="btn-login" id="login-btn">
-                <i class="fas fa-sign-in-alt mr-2"></i> <span id="login-btn-text">Sign In</span>
-
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt mr-2"></i> Sign In
             </button>
         </form>
 
         <!-- Register Link -->
-        <p class="text-center text-sm text-gray-500 mt-6">
+        <p class="text-center text-sm text-slate-400 mt-6">
             Don't have an account?
-            <a href="{{ route('register') }}" class="text-gold font-semibold hover:underline">
+            <a href="{{ route('register') }}" class="text-gold font-bold hover:underline">
                 Create one
             </a>
         </p>
 
     </div>
-
-    <script>
-        // Update admin button styling based on current route
-        const currentPath = window.location.pathname;
-        if (currentPath.includes('admin')) {
-            document.getElementById('btn-admin').classList.add('bg-primary', 'text-purple-600', 'shadow-sm');
-            document.getElementById('btn-user').classList.remove('bg-primary', 'text-gold', 'shadow-sm');
-            document.getElementById('btn-user').classList.add('text-gray-500', 'hover:text-gray-700');
-        }
-    </script>
 </body>
-
 </html>

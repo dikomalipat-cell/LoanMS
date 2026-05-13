@@ -65,6 +65,11 @@ class Loan extends Model
         return $query->where('status', 'pending');
     }
 
+    public function scopeVerified($query)
+    {
+        return $query->where('status', 'verified');
+    }
+
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
@@ -101,6 +106,7 @@ class Loan extends Model
     {
         $badges = [
             'pending' => 'warning',
+            'verified' => 'info',
             'approved' => 'success',
             'rejected' => 'danger',
             'paid' => 'info',

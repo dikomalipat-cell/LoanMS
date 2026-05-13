@@ -17,19 +17,21 @@
             <span class="text-slate-200 font-medium">Dashboard</span>
             <span class="text-gray-300">·</span>
             <span
-                class="text-xs font-semibold text-slate-400">{{ (bool) (Auth::user()?->is_admin ?? false) ? 'Admin' : 'User' }}</span>
+                class="text-xs font-semibold text-slate-400 capitalize">{{ Auth::user()->role }}</span>
         </div>
     </div>
 
     <!-- Right: Search + Actions -->
     <div class="flex items-center gap-2 md:gap-3">
 
+        @if(in_array(Auth::user()->role, ['admin', 'staff']))
         <!-- Search bar - hidden on small screens -->
         <div class="relative hidden md:flex items-center">
             <i class="fas fa-search absolute left-3 text-gray-400 text-sm"></i>
-            <input type="text" placeholder="Search clients..."
+            <input type="text" placeholder="Search borrowers..."
                 class="pl-9 pr-4 py-2 text-sm bg-gray-100 border border-transparent rounded-xl focus:outline-none focus:bg-white focus:border-gold focus:ring-2 focus:ring-gold/20 transition w-48 lg:w-64">
         </div>
+        @endif
 
         <!-- Notification bell -->
         <button
@@ -49,9 +51,18 @@
                     </span>
                 </div>
                 <div class="hidden sm:block text-left">
-                    <p class="text-sm font-semibold text-slate-200 leading-tight">{{ Auth::user()->name ?? 'User' }}</p>
+                    <p class="text-sm font-semibold text-slate-200 leading-tight">{{ Auth::user()->name }}</p>
                     <p class="text-xs text-slate-400 leading-tight">
-                        {{ (bool) (Auth::user()?->is_admin ?? false) ? 'Administrator' : 'Staff User' }}
+                        @php
+                            $role = Auth::user()->role;
+                        @endphp
+                        @if($role === 'admin')
+                            Administrator
+                        @elseif($role === 'staff')
+                            Loan Officer
+                        @else
+                            Borrower
+                        @endif
                     </p>
                 </div>
                 <i class="fas fa-chevron-down text-xs text-gray-400 hidden sm:block ml-1"></i>

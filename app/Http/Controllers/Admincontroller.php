@@ -51,7 +51,7 @@ class AdminController extends Controller
 
     public function loansPending(): \Illuminate\View\View
     {
-        $loans = Loan::where('status', 'pending')->with('borrower')->latest()->paginate(15);
+        $loans = Loan::whereIn('status', ['pending', 'verified'])->with('borrower')->latest()->paginate(15);
 
         return view('admin.loans.pending', compact('loans'));
     }
@@ -90,8 +90,8 @@ class AdminController extends Controller
      */
     public function approveLoan(Request $request, Loan $loan): \Illuminate\Http\RedirectResponse
     {
-        if ($loan->status !== 'pending') {
-            return redirect()->back()->with('error', 'This loan is not in pending status.');
+        if (!in_array($loan->status, ['pending', 'verified'])) {
+            return redirect()->back()->with('error', 'This loan is not in a status that can be approved.');
         }
 
         $this->loanService->approveLoan($loan, auth()->id());
@@ -100,7 +100,7 @@ class AdminController extends Controller
         $this->auditService->logLoanApproved($loan->id, auth()->user()->name, $request);
 
         // Notify borrower
-        $this->notificationService->notifyLoanApproved($loan->user_id, $loan->loan_amount);
+        $this->notificationService->notifyLoanApproved($loan);
 
         return redirect()->back()->with('success', "Loan #{$loan->id} for {$loan->borrower->name} has been approved.");
     }
@@ -114,8 +114,8 @@ class AdminController extends Controller
             'rejection_reason' => ['required', 'string', 'max:500'],
         ]);
 
-        if ($loan->status !== 'pending') {
-            return redirect()->back()->with('error', 'This loan is not in pending status.');
+        if (!in_array($loan->status, ['pending', 'verified'])) {
+            return redirect()->back()->with('error', 'This loan is not in a status that can be rejected.');
         }
 
         $this->loanService->rejectLoan($loan, $request->rejection_reason);

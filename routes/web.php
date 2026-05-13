@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function () {
 
         // ── Loan Applications (Verify → Forward to Admin) ──
         Route::get('/applications/pending', [StaffApplicationController::class, 'pending'])->name('applications.pending');
+        Route::get('/applications/review', [StaffApplicationController::class, 'underReview'])->name('applications.review');
         Route::get('/applications/review/{loan}', [StaffApplicationController::class, 'reviewLoan'])->name('applications.review.show');
         Route::post('/applications/{loan}/verify', [StaffApplicationController::class, 'verifyAndForward'])->name('applications.verify');
         Route::get('/applications/approved', [StaffApplicationController::class, 'approved'])->name('applications.approved');

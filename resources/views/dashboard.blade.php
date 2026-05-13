@@ -198,7 +198,7 @@
                     </div>
 
                     <div class="mt-6">
-                        @if($client && $client->balance > 0)
+                        @if($activeLoan && ($remainingBalance ?? 0) > 0)
                             <a href="{{ route('user.payments.make') }}" class="inline-block bg-primary text-gold font-bold py-2 px-6 rounded-full shadow-sm hover:shadow-md hover:bg-primary-dark transition">
                                 Pay Now <i class="fas fa-arrow-right ml-2"></i>
                             </a>

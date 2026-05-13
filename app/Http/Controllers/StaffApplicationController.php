@@ -32,6 +32,19 @@ class StaffApplicationController extends Controller
     }
 
     /**
+     * Show loan applications that have been verified by staff but not yet approved by admin.
+     */
+    public function underReview(): \Illuminate\View\View
+    {
+        $applications = Loan::where('status', 'verified')
+            ->with('borrower')
+            ->latest()
+            ->paginate(10);
+
+        return view('staff.applications.review_list', compact('applications'));
+    }
+
+    /**
      * Review a specific loan application (view details).
      */
     public function reviewLoan(Loan $loan): \Illuminate\View\View
@@ -47,8 +60,10 @@ class StaffApplicationController extends Controller
      */
     public function verifyAndForward(Request $request, Loan $loan): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
-            'staff_notes' => ['nullable', 'string', 'max:500'],
+        // Update loan status to verified
+        $loan->update([
+            'status' => 'verified',
+            // We could also save staff notes here if we had a column
         ]);
 
         // Log the staff verification action
@@ -65,7 +80,7 @@ class StaffApplicationController extends Controller
         // Notify admins that a loan is ready for their review
         $this->notificationService->notifyAdmins(
             'Loan Ready for Approval',
-            "Staff {$staffName = auth()->user()->name} has verified loan #{$loan->id} from {$loan->borrower->name} (₱".number_format($loan->loan_amount, 2)."). Ready for admin approval.",
+            "Staff " . auth()->user()->name . " has verified loan #{$loan->id} from {$loan->borrower->name} (₱".number_format($loan->loan_amount, 2)."). Ready for admin approval.",
             'info',
             'loan_verified'
         );
