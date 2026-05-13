@@ -19,15 +19,15 @@
                         <i class="fas fa-file-pdf text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-white text-sm">Passport_ID.pdf</h3>
-                        <p class="text-xs text-slate-400">1.2 MB • Valid ID</p>
+                        <h3 class="font-medium text-white text-sm"></h3>
+                        <p class="text-xs text-slate-400"></p>
                     </div>
                 </div>
                 <button class="text-gray-400 hover:text-slate-300"><i class="fas fa-ellipsis-v"></i></button>
             </div>
             <div class="flex items-center justify-between mt-4">
                 <span class="bg-gold/20 text-gold px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider">Verified</span>
-                <span class="text-xs text-gray-400">Uploaded: Jan 05, 2026</span>
+                <span class="text-xs text-gray-400"></span>
             </div>
         </div>
 
@@ -39,15 +39,15 @@
                         <i class="fas fa-file-image text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-white text-sm">Payslip_Dec2025.jpg</h3>
-                        <p class="text-xs text-slate-400">840 KB • Proof of Income</p>
+                        <h3 class="font-medium text-white text-sm"></h3>
+                        <p class="text-xs text-slate-400"></p>
                     </div>
                 </div>
                 <button class="text-gray-400 hover:text-slate-300"><i class="fas fa-ellipsis-v"></i></button>
             </div>
             <div class="flex items-center justify-between mt-4">
                 <span class="bg-gold/20 text-gold px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider">Verified</span>
-                <span class="text-xs text-gray-400">Uploaded: Jan 05, 2026</span>
+                <span class="text-xs text-gray-400"></span>
             </div>
         </div>
 
@@ -59,15 +59,15 @@
                         <i class="fas fa-file-pdf text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="font-medium text-white text-sm">Meralco_Bill.pdf</h3>
-                        <p class="text-xs text-slate-400">2.1 MB • Proof of Billing</p>
+                        <h3 class="font-medium text-white text-sm"></h3>
+                        <p class="text-xs text-slate-400"></p>
                     </div>
                 </div>
                 <button class="text-gray-400 hover:text-slate-300"><i class="fas fa-ellipsis-v"></i></button>
             </div>
             <div class="flex items-center justify-between mt-4">
                 <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-[10px] font-semibold uppercase tracking-wider">Pending Review</span>
-                <span class="text-xs text-gray-400">Uploaded: May 06, 2026</span>
+                <span class="text-xs text-gray-400"></span>
             </div>
         </div>
 

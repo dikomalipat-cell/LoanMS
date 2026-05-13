@@ -13,7 +13,7 @@ class NotificationController extends Controller
             ->latest()
             ->paginate(20);
 
-        return view('notifications.index', compact('notifications'));
+        return view('user.notifications.index', compact('notifications'));
     }
 
     public function markAsRead(Notification $notification)
