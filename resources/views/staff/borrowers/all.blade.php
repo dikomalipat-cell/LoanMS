@@ -27,12 +27,12 @@
                     <td class="p-4 text-sm font-medium text-white">{{ $borrower->name }}</td>
                     <td class="p-4 text-sm text-slate-300">{{ $borrower->email }}</td>
                     <td class="p-4 text-sm text-slate-300">{{ $borrower->phone ?? 'N/A' }}</td>
-                    <td class="p-4 text-sm font-medium text-white">{{ $borrower->balance > 0 ? 1 : 0 }}</td>
+                    <td class="p-4 text-sm font-medium text-white">{{ $borrower->loans_count }}</td>
                     <td class="p-4">
-                        @if($borrower->status === 'approved')
-                            <span class="bg-gold/20 text-gold px-2 py-1 rounded-full text-xs font-semibold">Yes</span>
+                        @if($borrower->loans_count > 0)
+                            <span class="bg-gold/20 text-gold px-2 py-1 rounded-full text-xs font-semibold">Active Borrower</span>
                         @else
-                            <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-semibold">{{ ucfirst($borrower->status) }}</span>
+                            <span class="bg-slate-700 text-slate-400 px-2 py-1 rounded-full text-xs font-semibold">No Loans</span>
                         @endif
                     </td>
                     <td class="p-4 text-right"><button class="text-blue-500 hover:text-blue-700"><i class="fas fa-eye"></i></button></td>

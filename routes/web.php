@@ -24,7 +24,15 @@ use Illuminate\Support\Facades\Route;
 
 // ─── PUBLIC ROUTES ───────────────────────────────────────────
 Route::get('/', function () {
-    return view('welcome');
+    $stats = [
+        'total_disbursed' => \App\Models\Loan::sum('loan_amount'),
+        'repayment_rate' => \App\Models\Loan::sum('loan_amount') > 0 
+            ? round((\App\Models\Payment::sum('amount_paid') / \App\Models\Loan::sum('loan_amount')) * 100, 1) 
+            : 0,
+        'active_borrowers' => \App\Models\User::where('role', 'user')->count(),
+        'avg_approval_time' => '24h', // This can be a static "promise" or calculated if we had timestamps
+    ];
+    return view('welcome', compact('stats'));
 });
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');

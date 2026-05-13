@@ -17,10 +17,10 @@ class StaffSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'staff@example.com'],
+            ['email' => 'staff@loanms.com'],
             [
-                'name' => 'Staff User',
-                'password' => Hash::make('password'),
+                'name' => 'Loan Officer',
+                'password' => Hash::make('staff123'),
                 'is_admin' => false,
                 'role' => 'staff',
             ]

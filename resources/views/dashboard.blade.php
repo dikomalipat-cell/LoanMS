@@ -184,16 +184,16 @@
                 </div>
                 <div class="relative z-10">
                     <p class="text-gold-light text-sm font-medium mb-1 uppercase tracking-wider">Active Loan Balance</p>
-                    <h2 class="text-4xl font-bold mb-4">₱ {{ number_format($client?->balance ?? 0, 2) }}</h2>
+                    <h2 class="text-4xl font-bold mb-4">₱ {{ number_format($remainingBalance ?? 0, 2) }}</h2>
                     
                     <div class="flex flex-wrap gap-6 mt-6">
                         <div>
-                            <p class="text-xs text-gold-light mb-1">Next Payment Due</p>
-                            <p class="font-semibold text-lg">₱ {{ number_format(($client?->loan_amount ?? 0) / 6, 2) }}</p>
+                            <p class="text-xs text-gold-light mb-1">Monthly Payment</p>
+                            <p class="font-semibold text-lg">₱ {{ number_format($activeLoan?->monthly_payment ?? 0, 2) }}</p>
                         </div>
                         <div>
-                            <p class="text-xs text-gold-light mb-1">Due Date</p>
-                            <p class="font-semibold text-lg">{{ $client?->due_date ? \Carbon\Carbon::parse($client->due_date)->format('F d, Y') : 'N/A' }}</p>
+                            <p class="text-xs text-gold-light mb-1">Next Due Date</p>
+                            <p class="font-semibold text-lg">{{ $nextPaymentDate ? \Carbon\Carbon::parse($nextPaymentDate)->format('M d, Y') : 'N/A' }}</p>
                         </div>
                     </div>
 
@@ -219,9 +219,9 @@
                         <i class="fas fa-file-signature"></i>
                     </div>
                     <div>
-                        @if($client && $client->balance > 0)
+                        @if($activeLoan)
                             <h3 class="font-bold text-white text-sm mb-1">Loan Status</h3>
-                            <p class="text-xs text-slate-400 mb-2">You currently have an active loan. You cannot apply for a new one until this is fully paid.</p>
+                            <p class="text-xs text-slate-400 mb-2">Your loan #{{ $activeLoan->id }} is currently {{ $activeLoan->status }}. Keep your payments up to date to maintain a good credit score.</p>
                             <a href="{{ route('user.loans.active') }}" class="text-blue-600 hover:text-blue-800 text-xs font-semibold">View Details &rarr;</a>
                         @else
                             <h3 class="font-bold text-white text-sm mb-1">Ready to Apply?</h3>
@@ -250,37 +250,28 @@
                 <h3 class="text-lg font-bold text-white">Recent Transactions</h3>
                 <a href="{{ route('user.payments.history') }}" class="text-sm text-gold hover:text-gold font-medium">View All</a>
             </div>
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-slate-700">
+                @forelse($recentPayments ?? [] as $payment)
                 <div class="py-3 flex justify-between items-center">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-primary-dark text-slate-400 flex items-center justify-center">
-                            <i class="fas fa-exchange-alt text-xs"></i>
+                            <i class="fas fa-receipt text-xs"></i>
                         </div>
                         <div>
-                            <p class="text-sm font-medium text-white">Monthly Amortization</p>
-                            <p class="text-xs text-slate-400">Apr 15, 2026 • Bank Transfer</p>
+                            <p class="text-sm font-medium text-white">Loan Payment</p>
+                            <p class="text-xs text-slate-400">{{ $payment->payment_date->format('M d, Y') }} • {{ ucfirst($payment->payment_method) }}</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="text-sm font-bold text-white">- ₱ 5,000.00</p>
+                        <p class="text-sm font-bold text-white">- ₱ {{ number_format($payment->amount_paid, 2) }}</p>
                         <p class="text-[10px] font-semibold text-gold uppercase">Verified</p>
                     </div>
                 </div>
-                <div class="py-3 flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-primary-dark text-slate-400 flex items-center justify-center">
-                            <i class="fas fa-exchange-alt text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-white">Monthly Amortization</p>
-                            <p class="text-xs text-slate-400">Mar 15, 2026 • GCash</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-bold text-white">- ₱ 5,000.00</p>
-                        <p class="text-[10px] font-semibold text-gold uppercase">Verified</p>
-                    </div>
+                @empty
+                <div class="py-8 text-center text-slate-400 text-sm italic">
+                    No payment history found.
                 </div>
+                @endforelse
             </div>
         </div>
 

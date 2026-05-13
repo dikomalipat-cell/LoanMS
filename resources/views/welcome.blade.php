@@ -229,11 +229,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
-                    <div class="text-4xl md:text-5xl font-heading font-bold text-white mb-2">₱50M+</div>
-                    <div class="text-slate-400 text-sm font-medium uppercase tracking-wider">Loans Disbursed</div>
+                    <div class="text-4xl md:text-5xl font-heading font-bold text-white mb-2">₱{{ number_format($stats['total_disbursed'] >= 1000000 ? $stats['total_disbursed']/1000000 : $stats['total_disbursed'], 1) }}{{ $stats['total_disbursed'] >= 1000000 ? 'M' : '' }}</div>
+                    <div class="text-slate-400 text-sm font-medium uppercase tracking-wider">Total Disbursed</div>
                 </div>
                 <div>
-                    <div class="text-4xl md:text-5xl font-heading font-bold text-gold mb-2">99%</div>
+                    <div class="text-4xl md:text-5xl font-heading font-bold text-gold mb-2">{{ $stats['repayment_rate'] }}%</div>
                     <div class="text-slate-400 text-sm font-medium uppercase tracking-wider">Repayment Rate</div>
                 </div>
                 <div>
@@ -241,8 +241,8 @@
                     <div class="text-slate-400 text-sm font-medium uppercase tracking-wider">Avg. Approval Time</div>
                 </div>
                 <div>
-                    <div class="text-4xl md:text-5xl font-heading font-bold text-gold mb-2">10k+</div>
-                    <div class="text-slate-400 text-sm font-medium uppercase tracking-wider">Active Borrowers</div>
+                    <div class="text-4xl md:text-5xl font-heading font-bold text-gold mb-2">{{ number_format($stats['active_borrowers']) }}</div>
+                    <div class="text-slate-400 text-sm font-medium uppercase tracking-wider">Registered Users</div>
                 </div>
             </div>
         </div>
