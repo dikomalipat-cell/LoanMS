@@ -1,6 +1,6 @@
 <aside id="sidebar"
     class="fixed top-0 left-0 w-64 h-full z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col"
-    style="background: #0f172a; border-right: 1px solid #1e293b;">
+    style="background: #064e3b; border-right: 1px solid #065f46;">
 
     @php
         $userRole = Auth::user()?->role ?? 'user';
@@ -14,7 +14,7 @@
             <div class="w-9 h-9 bg-gold bg-opacity-20 rounded-xl flex items-center justify-center">
                 <i class="fas fa-coins text-gold text-lg"></i>
             </div>
-            <span class="text-white font-bold text-lg tracking-wide">LoanMS</span>
+            <span class="text-white font-bold text-lg tracking-wide">LoanShark</span>
         </a>
         <button onclick="closeSidebar()"
             class="lg:hidden text-gold hover:text-white focus:outline-none transition">

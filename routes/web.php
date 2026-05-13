@@ -36,7 +36,7 @@ Route::get('/', function () {
 });
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
-Route::get('/user/login', [ProfileController::class, 'login'])->name('profile.login');
+Route::get('/user/login', [ProfileController::class, 'login'])->name('user.login');
 
 // ─── AUTHENTICATED ROUTES ────────────────────────────────────
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');

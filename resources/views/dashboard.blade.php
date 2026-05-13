@@ -13,7 +13,7 @@
     <div>
         <h1 class="text-3xl font-bold text-white">
             @if($role === 'admin')
-                Admin Overview
+                LoanShark Overview
             @elseif($role === 'staff')
                 Staff Dashboard
             @else
@@ -38,69 +38,231 @@
 @if($role === 'admin')
     <!-- ================= ADMIN DASHBOARD ================= -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Stat Card 1 -->
-        <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0">
-                <i class="fas fa-users text-xl"></i>
+        <!-- Capital Card -->
+        <div class="bg-gradient-to-br from-primary to-primary-light rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-all group overflow-hidden relative">
+            <div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform">
+                <i class="fas fa-vault text-6xl"></i>
             </div>
-            <div>
-                <p class="text-sm font-medium text-slate-400">Total Borrowers</p>
-                <h3 class="text-2xl font-bold text-white">{{ number_format($stats['total_borrowers']) }}</h3>
-            </div>
-        </div>
-        <!-- Stat Card 2 -->
-        <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
             <div class="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center text-gold flex-shrink-0">
-                <i class="fas fa-hand-holding-usd text-xl"></i>
+                <i class="fas fa-gem text-xl"></i>
             </div>
             <div>
-                <p class="text-sm font-medium text-slate-400">Active Loans</p>
-                <h3 class="text-2xl font-bold text-white">{{ number_format($stats['active_loans']) }}</h3>
+                <p class="text-sm font-medium text-slate-400">Total Capital</p>
+                <h3 class="text-2xl font-bold text-white">₱ 10,000,000,000</h3>
+                <p class="text-[10px] text-green-400 font-bold mt-1 uppercase">Corporate Reserve</p>
             </div>
         </div>
-        <!-- Stat Card 3 -->
-        <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 flex-shrink-0">
-                <i class="fas fa-exclamation-circle text-xl"></i>
+
+        <!-- Revenue Card -->
+        <div class="bg-gradient-to-br from-primary to-primary-light rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-all group overflow-hidden relative">
+            <div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform">
+                <i class="fas fa-chart-line text-6xl"></i>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-green-100/10 flex items-center justify-center text-green-500 flex-shrink-0">
+                <i class="fas fa-coins text-xl"></i>
             </div>
             <div>
-                <p class="text-sm font-medium text-slate-400">Overdue Accounts</p>
-                <h3 class="text-2xl font-bold text-white">{{ number_format($stats['overdue_followups']) }}</h3>
+                <p class="text-sm font-medium text-slate-400">Total Revenue</p>
+                <h3 class="text-2xl font-bold text-white">₱ 10,000,000,000</h3>
+                <p class="text-[10px] text-green-400 font-bold mt-1 uppercase">+12.5% vs Last Month</p>
             </div>
         </div>
-        <!-- Stat Card 4 -->
-        <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0">
-                <i class="fas fa-wallet text-xl"></i>
+
+        <!-- Profit Card -->
+        <div class="bg-gradient-to-br from-primary to-primary-light rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-all group overflow-hidden relative">
+            <div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform">
+                <i class="fas fa-sack-dollar text-6xl"></i>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-100/10 flex items-center justify-center text-blue-400 flex-shrink-0">
+                <i class="fas fa-hand-holding-heart text-xl"></i>
             </div>
             <div>
-                <p class="text-sm font-medium text-slate-400">Total Disbursed</p>
-                <h3 class="text-2xl font-bold text-white">₱ {{ number_format($stats['total_disbursed'] >= 1000000 ? $stats['total_disbursed']/1000000 : $stats['total_disbursed'], 1) }}{{ $stats['total_disbursed'] >= 1000000 ? 'M' : '' }}</h3>
+                <p class="text-sm font-medium text-slate-400">Net Profit</p>
+                <h3 class="text-2xl font-bold text-white">₱ 10,000,000,000</h3>
+                <p class="text-[10px] text-blue-400 font-bold mt-1 uppercase">Ready for Payout</p>
+            </div>
+        </div>
+
+        <!-- Countdown Card -->
+        <div class="bg-gradient-to-br from-gold/10 to-gold/5 rounded-xl p-6 border border-gold/20 shadow-sm flex items-center gap-4 hover:shadow-md transition-all overflow-hidden relative">
+            <div class="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-primary-dark flex-shrink-0">
+                <i class="fas fa-clock text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gold">Next Collection Cycle</p>
+                <h3 class="text-2xl font-bold text-white font-mono" id="collection-countdown">00:00:00</h3>
+                <p class="text-[10px] text-slate-400 mt-1 uppercase">Automated Batch Process</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-time Graph Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="lg:col-span-2 bg-primary p-6 rounded-2xl border border-slate-700 shadow-sm">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Live Collection Analytics</h3>
+                    <p class="text-xs text-slate-400">Real-time throughput of system-wide payments</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Live</span>
+                </div>
+            </div>
+            <div class="h-64">
+                <canvas id="liveChart"></canvas>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+            <!-- Stat Card 1 -->
+            <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0">
+                    <i class="fas fa-users text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-slate-400">Total Borrowers</p>
+                    <h3 class="text-2xl font-bold text-white">{{ number_format($stats['total_borrowers']) }}</h3>
+                </div>
+            </div>
+            <!-- Stat Card 2 -->
+            <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center text-gold flex-shrink-0">
+                    <i class="fas fa-hand-holding-usd text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-slate-400">Active Loans</p>
+                    <h3 class="text-2xl font-bold text-white">{{ number_format($stats['active_loans']) }}</h3>
+                </div>
+            </div>
+            <!-- Stat Card 3 -->
+            <div class="bg-primary rounded-xl p-6 border border-slate-700 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 rounded-full bg-red-100/10 flex items-center justify-center text-red-500 flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-slate-400">Overdue Accounts</p>
+                    <h3 class="text-2xl font-bold text-white">{{ number_format($stats['overdue_followups']) }}</h3>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Admin Quick Actions -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div class="bg-primary p-6 rounded-xl border border-slate-700 shadow-sm">
             <h3 class="text-lg font-bold text-white mb-4">Quick Actions</h3>
             <div class="grid grid-cols-2 gap-4">
-                <a href="{{ route('loan.index') }}" class="p-4 border border-slate-700 rounded-lg hover:border-green-500 hover:bg-primary-light transition text-center group">
-                    <i class="fas fa-address-book text-2xl text-gray-400 group-hover:text-green-500 mb-2 block"></i>
-                    <span class="text-sm font-medium text-gray-700">Manage Clients</span>
+                <a href="{{ route('admin.users.index') }}" class="p-4 border border-slate-700 rounded-lg hover:border-gold hover:bg-primary-light transition text-center group">
+                    <i class="fas fa-users-cog text-2xl text-gray-400 group-hover:text-gold mb-2 block"></i>
+                    <span class="text-sm font-medium text-slate-300">User Management</span>
                 </a>
-                <a href="{{ route('banks.index') }}" class="p-4 border border-slate-700 rounded-lg hover:border-green-500 hover:bg-primary-light transition text-center group">
-                    <i class="fas fa-university text-2xl text-gray-400 group-hover:text-green-500 mb-2 block"></i>
-                    <span class="text-sm font-medium text-gray-700">Manage Banks</span>
+                <a href="{{ route('banks.index') }}" class="p-4 border border-slate-700 rounded-lg hover:border-gold hover:bg-primary-light transition text-center group">
+                    <i class="fas fa-university text-2xl text-gray-400 group-hover:text-gold mb-2 block"></i>
+                    <span class="text-sm font-medium text-slate-300">Bank Partners</span>
                 </a>
             </div>
         </div>
-        <div class="bg-gradient-to-br from-green-700 to-green-900 p-6 rounded-xl shadow-sm text-white flex flex-col justify-center">
-            <h3 class="text-xl font-bold mb-2">System Health</h3>
-            <p class="text-gold-light mb-4 text-sm">All systems are running smoothly. Database backups are up to date.</p>
-            <a href="{{ route('settings.index') }}" class="bg-primary text-gold px-4 py-2 rounded-lg text-sm font-medium self-start hover:bg-primary-dark transition shadow-sm">
-                Go to Settings
+        <div class="bg-gradient-to-br from-primary to-primary-light p-6 rounded-xl border border-slate-700 shadow-sm text-white flex flex-col justify-center relative overflow-hidden">
+            <div class="absolute right-0 bottom-0 opacity-5 -mb-4 -mr-4">
+                <i class="fas fa-shield-alt text-8xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Security & Health</h3>
+            <p class="text-slate-400 mb-4 text-sm">System encryption is active. All financial logs are being audited in real-time.</p>
+            <a href="{{ route('settings.index') }}" class="bg-gold text-primary-dark px-4 py-2 rounded-lg text-sm font-bold self-start hover:bg-white transition shadow-sm">
+                System Settings
             </a>
+        </div>
+    </div>
+
+    <!-- Recent Activity Tables -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Recent Loans -->
+        <div class="bg-primary rounded-2xl border border-slate-700 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-white/5">
+                <h3 class="font-bold text-white">Recent Loan Applications</h3>
+                <span class="text-[10px] bg-gold/20 text-gold px-2 py-1 rounded-full font-bold uppercase">Real-time</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="text-xs text-slate-400 uppercase bg-slate-800/50">
+                        <tr>
+                            <th class="px-6 py-3 font-semibold">Borrower</th>
+                            <th class="px-6 py-3 font-semibold">Amount</th>
+                            <th class="px-6 py-3 font-semibold">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        @forelse($recentLoans ?? [] as $loan)
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary-light flex items-center justify-center text-xs font-bold text-gold">
+                                        {{ strtoupper(substr($loan->borrower->name ?? 'U', 0, 1)) }}
+                                    </div>
+                                    <span class="text-sm font-medium text-white">{{ $loan->borrower->name ?? 'Unknown' }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-300">₱ {{ number_format($loan->loan_amount, 2) }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-[10px] font-bold rounded-full uppercase 
+                                    @if($loan->status === 'approved') bg-green-500/20 text-green-400
+                                    @elseif($loan->status === 'pending') bg-yellow-500/20 text-yellow-400
+                                    @else bg-red-500/20 text-red-400 @endif">
+                                    {{ $loan->status }}
+                                </span>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-8 text-center text-slate-500 italic text-sm">No recent applications found.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Payments -->
+        <div class="bg-primary rounded-2xl border border-slate-700 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center bg-white/5">
+                <h3 class="font-bold text-white">Recent Collections</h3>
+                <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded-full font-bold uppercase">Verified</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="text-xs text-slate-400 uppercase bg-slate-800/50">
+                        <tr>
+                            <th class="px-6 py-3 font-semibold">Client</th>
+                            <th class="px-6 py-3 font-semibold">Amount</th>
+                            <th class="px-6 py-3 font-semibold">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        @forelse($recentPayments ?? [] as $payment)
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center text-xs font-bold text-green-400">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-white">{{ $payment->loan->borrower->name ?? 'Unknown' }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-green-400 font-bold">₱ {{ number_format($payment->amount_paid, 2) }}</td>
+                            <td class="px-6 py-4 text-xs text-slate-400">{{ $payment->payment_date->format('M d, Y') }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-8 text-center text-slate-500 italic text-sm">No recent payments recorded.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -356,4 +518,60 @@
     </div>
 @endif
 
+@if($role === 'admin')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Countdown Timer
+    function updateCountdown() {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setHours(24, 0, 0, 0);
+        
+        const diff = tomorrow - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        document.getElementById('collection-countdown').innerText = 
+            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Live Chart
+    const ctx = document.getElementById('liveChart').getContext('2d');
+    const liveChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array(20).fill(''),
+            datasets: [{
+                label: 'Payment Throughput (₱)',
+                data: Array(20).fill(0).map(() => Math.floor(Math.random() * 5000) + 1000),
+                borderColor: '#f5c518',
+                backgroundColor: 'rgba(245, 197, 24, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } },
+            animation: { duration: 1000 }
+        }
+    });
+
+    // Simulate real-time updates
+    setInterval(() => {
+        liveChart.data.datasets[0].data.shift();
+        liveChart.data.datasets[0].data.push(Math.floor(Math.random() * 5000) + 1000);
+        liveChart.update();
+    }, 3000);
+</script>
+@endif
 @endsection

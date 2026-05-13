@@ -10,9 +10,9 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Outfit', sans-serif; }
-        .bg-primary-dark { background-color: #0f172a; } /* Slate 900 */
-        .bg-primary { background-color: #1e293b; } /* Slate 800 */
-        .bg-primary-light { background-color: #334155; } /* Slate 700 */
+        .bg-primary-dark { background-color: #064e3b; } /* Dark Emerald */
+        .bg-primary { background-color: #065f46; } /* Medium Emerald */
+        .bg-primary-light { background-color: #047857; } /* Emerald */
         .text-gold { color: #f5c518; }
         .bg-gold { background-color: #f5c518; }
         .border-gold { border-color: #f5c518; }
@@ -20,7 +20,7 @@
     </style>
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #0f172a; }
+        body { background-color: #064e3b; }
         [x-cloak] { display: none !important; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -50,7 +50,6 @@
             {{-- Header --}}
             @include('profile.header')
 
-            {{-- Page content --}}
             <main class="flex-1 p-4 md:p-6 overflow-x-auto">
                 @yield('content')
             </main>

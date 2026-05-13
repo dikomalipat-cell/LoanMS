@@ -16,9 +16,9 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Outfit', sans-serif; }
-        .bg-primary-dark { background-color: #0f172a; } /* Slate 900 */
-        .bg-primary { background-color: #1e293b; } /* Slate 800 */
-        .bg-primary-light { background-color: #334155; } /* Slate 700 */
+        .bg-primary-dark { background-color: #064e3b; } /* Dark Emerald */
+        .bg-primary { background-color: #065f46; } /* Medium Emerald */
+        .bg-primary-light { background-color: #047857; } /* Emerald */
         .text-gold { color: #f5c518; }
         .bg-gold { background-color: #f5c518; }
         .border-gold { border-color: #f5c518; }
@@ -27,7 +27,7 @@
         
         /* Glassmorphism */
         .glass {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(6, 78, 59, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -58,7 +58,7 @@
                         @auth
                             <a href="{{ url('/dashboard') }}" class="font-medium text-slate-300 hover:text-white transition"></a>
                         @else
-                            <a href="{{ route('profile.login') }}" class="font-medium text-slate-300 hover:text-white transition">Log in</a>
+                            <a href="{{ route('user.login') }}" class="font-medium text-slate-300 hover:text-white transition">Log in</a>
                             
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-full bg-gold hover-bg-gold text-primary-dark font-semibold transition shadow-[0_4px_14px_0_rgba(245,197,24,0.39)] hover:shadow-[0_6px_20px_rgba(245,197,24,0.23)] hover:-translate-y-0.5 transform duration-200">
@@ -83,7 +83,7 @@
     <div class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         <!-- Abstract Background Shapes -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-20 pointer-events-none">
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-gold blur-[100px] rounded-full mix-blend-screen"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-gold blur-[100px] rounded-full mix-blend-screen"></div>
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -106,7 +106,7 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="{{ route('profile.login') }}" class="px-8 py-4 rounded-full bg-gold hover-bg-gold text-primary-dark font-bold text-lg transition shadow-[0_0_20px_rgba(245,197,24,0.4)] hover:shadow-[0_0_30px_rgba(245,197,24,0.6)] hover:-translate-y-1 transform duration-300 flex items-center justify-center gap-2">
+                    <a href="{{ route('user.login') }}" class="px-8 py-4 rounded-full bg-gold hover-bg-gold text-primary-dark font-bold text-lg transition shadow-[0_0_20px_rgba(245,197,24,0.4)] hover:shadow-[0_0_30px_rgba(245,197,24,0.6)] hover:-translate-y-1 transform duration-300 flex items-center justify-center gap-2">
                         Apply for a Loan <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="#features" class="px-8 py-4 rounded-full bg-primary border border-slate-600 hover:border-gold hover:text-gold text-white font-semibold text-lg transition duration-300 flex items-center justify-center">
@@ -254,7 +254,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <h2 class="text-4xl font-heading font-bold text-white mb-6">Ready to take control of your finances?</h2>
             <p class="text-xl text-slate-400 mb-10">Join thousands of users who trust LoanMS for their borrowing and lending needs.</p>
-            <a href="{{ route('profile.login') }}" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gold hover-bg-gold text-primary-dark font-bold text-lg transition shadow-lg hover:-translate-y-1 transform duration-300">
+            <a href="{{ route('user.login') }}" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gold hover-bg-gold text-primary-dark font-bold text-lg transition shadow-lg hover:-translate-y-1 transform duration-300">
                 Create an Account <i class="fas fa-user-plus"></i>
             </a>
         </div>
@@ -324,10 +324,10 @@
             const nav = document.getElementById('navbar');
             if (window.scrollY > 20) {
                 nav.classList.add('shadow-lg');
-                nav.style.background = 'rgba(15, 23, 42, 0.9)'; // Darker on scroll
+                nav.style.background = 'rgba(6, 78, 59, 0.9)'; // Darker on scroll
             } else {
                 nav.classList.remove('shadow-lg');
-                nav.style.background = 'rgba(30, 41, 59, 0.7)'; // Lighter glass at top
+                nav.style.background = 'rgba(6, 78, 59, 0.7)'; // Lighter glass at top
             }
         });
     </script>

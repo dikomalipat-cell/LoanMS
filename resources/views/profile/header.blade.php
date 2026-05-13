@@ -6,7 +6,7 @@
     <div class="flex items-center gap-3">
         <!-- Hamburger - mobile only -->
         <button onclick="openSidebar()"
-            class="lg:hidden w-9 h-9 flex items-center justify-center rsounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition focus:outline-none">
+            class="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 transition focus:outline-none">
             <i class="fas fa-bars text-sm"></i>
         </button>
 
@@ -29,21 +29,21 @@
         <div class="relative hidden md:flex items-center">
             <i class="fas fa-search absolute left-3 text-gray-400 text-sm"></i>
             <input type="text" placeholder="Search borrowers..."
-                class="pl-9 pr-4 py-2 text-sm bg-gray-100 border border-transparent rounded-xl focus:outline-none focus:bg-white focus:border-gold focus:ring-2 focus:ring-gold/20 transition w-48 lg:w-64">
+                class="pl-9 pr-4 py-2 text-sm bg-white/5 border border-slate-700 text-white rounded-xl focus:outline-none focus:bg-white/10 focus:border-gold focus:ring-2 focus:ring-gold/20 transition w-48 lg:w-64 placeholder-slate-500">
         </div>
         @endif
 
         <!-- Notification bell -->
         <button
-            class="relative w-9 h-9 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition focus:outline-none">
+            class="relative w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 transition focus:outline-none">
             <i class="fas fa-bell text-sm"></i>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-primary"></span>
         </button>
 
         <!-- User dropdown -->
         <div class="relative" x-data="{ open: false }" @click.away="open = false">
             <button @click="open = !open"
-                class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl hover:bg-gray-100 transition focus:outline-none">
+                class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl hover:bg-white/10 transition focus:outline-none">
                 <div
                     class="w-8 h-8 rounded-full bg-gold flex items-center justify-center flex-shrink-0">
                     <span class="text-primary-dark text-xs font-bold">
